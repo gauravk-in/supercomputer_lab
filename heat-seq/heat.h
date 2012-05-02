@@ -62,7 +62,7 @@ double residual_jacobi( double *u,
 			unsigned sizex, unsigned sizey );
 #endif
 double relax_jacobi_return_residual( double *u, double *utmp,
-		   unsigned sizex, unsigned sizey ); 
+		   unsigned sizex, unsigned sizey, unsigned BlockSize ); 
 
 
 #endif // JACOBI_H_INCLUDED

@@ -12,6 +12,7 @@
 #include "heat.h"
 #include "timing.h"
 
+#define BLOCKSIZE 100
 
 void usage( char *s )
 {
@@ -25,6 +26,8 @@ int main( int argc, char *argv[] )
     unsigned iter;
     FILE *infile, *resfile;
     char *resfilename;
+
+	unsigned BlockSize = BLOCKSIZE;
 
 	double *tmp;
 
@@ -116,7 +119,7 @@ int main( int argc, char *argv[] )
 
 		case 0: // JACOBI
       
-		    residual = relax_jacobi_return_residual(param.u, param.uhelp, np, np);
+		    residual = relax_jacobi_return_residual(param.u, param.uhelp, np, np, BlockSize);
 			tmp = param.u;
 			param.u = param.uhelp;
 			param.uhelp = tmp;
