@@ -46,6 +46,7 @@ double relax_jacobi_return_residual( double *u, double *utmp,
 {
 	int i, j, k, l=0;
 	double unew, diff, sum=0.0;
+	unsigned long offset;
 
 	//MODIFIED: exchanged the outer and the inner loop
 	for( i=1; i < sizey-2+Interleaving_Count; i++ )
@@ -56,16 +57,18 @@ double relax_jacobi_return_residual( double *u, double *utmp,
 			{
 				if(k == 0) break;
 				if(k > sizey-2) continue;
+			
+				offset = k*sizex + j;
 
 				//MODIFIED: storing the offset in a variable
-				u[k*sizex + j] = utmp[k*sizex + j];
-				utmp[k*sizex + j]= 0.25 * (u[ k*sizex + j -1 ]+  // left-old
-						utmp[ k*sizex + j +1 ]+  // right-new
-						u[ k*sizex + j - sizex ]+  // top-old
-						utmp[ k*sizex + j + sizex ]); // bottom-new
+				u[offset] = utmp[offset];
+				utmp[offset]= 0.25 * (u[ offset -1 ]+  // left-old
+						utmp[ offset +1 ]+  // right-new
+						u[ offset - sizex ]+  // top-old
+						utmp[ offset + sizex ]); // bottom-new
 				if(k == i-Interleaving_Count+1)
 				{
-					diff = utmp[k*sizex + j] - u[k*sizex + j];
+					diff = utmp[offset] - u[offset];
 					sum += diff * diff;
 				}
 			}
