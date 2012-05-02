@@ -7,61 +7,69 @@
 
 #include "heat.h"
 
-#if 0
+#if 0			//residual_jacobi
 /*
  * Residual (length of error vector)
  * between current solution and next after a Jacobi step
  */
-double residual_jacobi( double *u, 
-			unsigned sizex, unsigned sizey )
+double residual_jacobi( double *u,
+		unsigned sizex, unsigned sizey)
 {
     unsigned i, j;
     double unew, diff, sum=0.0;
 
     for( i=1; i<sizey-1; i++ )
     {
-	for( j=1; j<sizex-1; j++ )
-        {
-	    unew = 0.25 * (u[ i*sizex     + (j-1) ]+  // left
-			   u[ i*sizex     + (j+1) ]+  // right
-			   u[ (i-1)*sizex + j     ]+  // top
-			   u[ (i+1)*sizex + j     ]); // bottom
+	    for( j=1; j<sizex-1; j++ )
+	    {
+		    unsigned offset = i*sizex + j;
+		    unew = 0.25 * (u[ offset -1 ]+  // left
+				    u[ offset +1 ]+  // right
+				    u[ offset - sizex ]+  // top
+				    u[ offset + sizex ]); // bottom
 
-	    diff = unew - u[i*sizex + j];
-	    sum += diff * diff; 
-	}
+		    diff = unew - u[offset];
+		    sum += diff * diff;
+	    }
     }
 
     return sum;
+
 }
-#endif
+#endif			//residual_jacobi
 
 /*
  * One Jacobi iteration step
  */
 double relax_jacobi_return_residual( double *u, double *utmp,
-		unsigned sizex, unsigned sizey, unsigned BlockSize )
+		unsigned sizex, unsigned sizey, int Interleaving_Count )
 {
-	int i, j, k, l;
+	int i, j, k, l=0;
 	double unew, diff, sum=0.0;
 
-	unsigned BlockCountX = (sizex-2)/BlockSize;
-	unsigned BlockCountY = (sizey-2)/BlockSize;
-
-	for ( k = 0; k < BlockCountY; k++)
-		for ( l = 0; l < BlockCountX; l++)
+	//MODIFIED: exchanged the outer and the inner loop
+	for( i=1; i < sizey-2+Interleaving_Count; i++ )
+	{
+		for(k=i; k > i-Interleaving_Count; k--)
 		{
-			for( i=1 + BlockSize*k; i <= BlockSize*(k+1); i++ )
-				for( j=1 + BlockSize*l; j <= BlockSize*(l+1); j++ )
-				{
-					utmp[i*sizex+j]= 0.25 * (u[ i*sizex     + (j-1) ]+  // left
-							u[ i*sizex     + (j+1) ]+  // right
-							u[ (i-1)*sizex + j     ]+  // top
-							u[ (i+1)*sizex + j     ]); // bottom
+			for( j=1; j<sizex-1; j++ )
+			{
+				if(k == 0) break;
+				if(k > sizey-2) continue;
 
-					diff = utmp[i*sizex + j] - u[i*sizex +j];
+				//MODIFIED: storing the offset in a variable
+				u[k*sizex + j] = utmp[k*sizex + j];
+				utmp[k*sizex + j]= 0.25 * (u[ k*sizex + j -1 ]+  // left-old
+						utmp[ k*sizex + j +1 ]+  // right-new
+						u[ k*sizex + j - sizex ]+  // top-old
+						utmp[ k*sizex + j + sizex ]); // bottom-new
+				if(k == i-Interleaving_Count+1)
+				{
+					diff = utmp[k*sizex + j] - u[k*sizex + j];
 					sum += diff * diff;
 				}
+			}
 		}
+	}
 	return sum;
 }

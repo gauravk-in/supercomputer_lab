@@ -12,7 +12,7 @@
 #include "heat.h"
 #include "timing.h"
 
-#define BLOCKSIZE 100
+#define INTERLEAVING_COUNT 10 
 
 void usage( char *s )
 {
@@ -27,10 +27,9 @@ int main( int argc, char *argv[] )
     FILE *infile, *resfile;
     char *resfilename;
 
-	unsigned BlockSize = BLOCKSIZE;
-
+	int Interleaving_Count;
 	double *tmp;
-
+	
     // algorithmic parameters
     algoparam_t param;
     int np;
@@ -119,10 +118,12 @@ int main( int argc, char *argv[] )
 
 		case 0: // JACOBI
       
-		    residual = relax_jacobi_return_residual(param.u, param.uhelp, np, np, BlockSize);
-			tmp = param.u;
-			param.u = param.uhelp;
-			param.uhelp = tmp;
+			Interleaving_Count = INTERLEAVING_COUNT;
+
+			residual = relax_jacobi_return_residual(param.u, param.uhelp, np, np, Interleaving_Count);
+			tmp=param.u;
+			param.u=param.uhelp;
+			param.uhelp=tmp;
 		    break;
 
 		case 1: // GAUSS
@@ -132,7 +133,7 @@ int main( int argc, char *argv[] )
 		    break;
 	    }
 	    
-	    iter++;
+	    iter = iter + Interleaving_Count;
 
 	    // solution good enough ?
 	    if (residual < 0.000005) break;
