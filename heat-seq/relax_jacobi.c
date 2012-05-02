@@ -43,9 +43,9 @@ void relax_jacobi( double *u, double *utmp,
 {
     int i, j;
   
-    for( j=1; j<sizex-1; j++ )
+    for( i=1; i<sizex-1; i++ )
     {
-	for( i=1; i<sizey-1; i++ )
+	for( j=1; j<sizey-1; j++ )
         {
 	    utmp[i*sizex+j]= 0.25 * (u[ i*sizex     + (j-1) ]+  // left
 				     u[ i*sizex     + (j+1) ]+  // right
@@ -56,9 +56,9 @@ void relax_jacobi( double *u, double *utmp,
   
     // copy from utmp to u
 
-    for( j=1; j<sizex-1; j++ )
+    for( i=1; i<sizex-1; i++ )
     {
-	for( i=1; i<sizey-1; i++ )
+	for( j=1; j<sizey-1; j++ )
         {
 	    u[ i*sizex+j ] = utmp[ i*sizex+j ];
 	}
