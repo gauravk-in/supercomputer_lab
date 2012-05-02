@@ -26,6 +26,8 @@ int main( int argc, char *argv[] )
     FILE *infile, *resfile;
     char *resfilename;
 
+	double *tmp;
+
     // algorithmic parameters
     algoparam_t param;
     int np;
@@ -115,6 +117,9 @@ int main( int argc, char *argv[] )
 		case 0: // JACOBI
       
 		    relax_jacobi(param.u, param.uhelp, np, np);
+			tmp = param.u;
+			param.u = param.uhelp;
+			param.uhelp = tmp;
 		    residual = residual_jacobi( param.u, np, np);
 		    break;
 
