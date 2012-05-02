@@ -57,8 +57,10 @@ void relax_gauss( double *u,
 		  unsigned sizex, unsigned sizey  );
 
 // Jacobi: relax_jacobi.c
+#if 0
 double residual_jacobi( double *u,
 			unsigned sizex, unsigned sizey );
+#endif
 double relax_jacobi_return_residual( double *u, double *utmp,
 		   unsigned sizex, unsigned sizey ); 
 
