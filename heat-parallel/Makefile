@@ -1,6 +1,6 @@
 # Intel compiler
 CC =  icc
-CFLAGS = -g
+CFLAGS = -g -parallel -par-report3 -fargument-noalias 
 
 MPICC = mpicc
 

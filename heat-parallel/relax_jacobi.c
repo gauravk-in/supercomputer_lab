@@ -45,6 +45,7 @@ double relax_jacobi_return_residual( double *u, double *utmp,
 	int i, j;
 	double unew, diff, sum=0.0;
 
+	#pragma parallel
 	for( i=1; i<sizey-1; i++ )
 	{
 		for( j=1; j<sizex-1; j++ )
