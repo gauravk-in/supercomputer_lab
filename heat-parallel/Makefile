@@ -1,6 +1,6 @@
 # Intel compiler
 CC =  icc
-CFLAGS = -g -parallel -par-report3 -fargument-noalias 
+CFLAGS = -g -parallel -par-report3 -fargument-noalias -O3 -par-num-threads=8
 
 MPICC = mpicc
 
