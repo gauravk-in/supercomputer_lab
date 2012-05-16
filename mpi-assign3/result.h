@@ -15,8 +15,10 @@ struct data_bandwidth {
 	double bandwidth;
 };
 
-int submit_latency_data(struct data_latency);
+int submit_latency_data(struct data_latency data_l);
 
-int submit_bandwidth_data(struct data_bandwidth);
+int submit_bandwidth_data(struct data_bandwidth data_b);
+
+int write_hello();
 
 #endif
