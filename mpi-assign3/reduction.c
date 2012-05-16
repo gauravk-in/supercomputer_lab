@@ -1,11 +1,11 @@
-#include "mpi.h"
+#include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 main (int argc,char *argv[])
 {
 	int myid, np, ierr;
-	int a, tmp, i,tag;
+	int a, tmp, i, tag;
 	MPI_Status status;
 
 	ierr = MPI_Init (&argc, &argv);
@@ -19,7 +19,16 @@ main (int argc,char *argv[])
 	MPI_Comm_size(MPI_COMM_WORLD, &np);
 	MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
-	// ToDo: Check if np is a power of 2
+	// Check if np is not a power of 2
+        if ((np & (np - 1)) != 0)
+	{
+		if (myid == 0)
+		{
+			printf("Number of Processes is not a power of 2!\n");
+		}
+		MPI_Finalize();
+		exit(0);
+	}
 
 	a = myid;
 	i = 1;
