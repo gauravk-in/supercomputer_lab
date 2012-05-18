@@ -58,7 +58,6 @@ int main (int argc, char **argv)
 				data_b.time = (tend - tstart)/10;
 				data_b.bandwidth = 0;
 				submit_bandwidth_data(data_b);
-				printf("Submitted Data\n");
 			}
 		}
 	}
