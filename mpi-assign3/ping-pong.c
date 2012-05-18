@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "result.h"
 
+#define PING_PONG_LIMIT 5
+
 #define FNAME_CMDARG 1
 
 struct data_latency data_l;
@@ -11,7 +13,6 @@ char *filename;
 
 int main (int argc, char **argv)
 {
-	int PING_PONG_LIMIT=5;
 	int my_rank,partner_rank,i,j, nprocs;
 	int tag=10;
 	char a, b;
@@ -60,10 +61,8 @@ int main (int argc, char **argv)
 		if(my_rank==0){
 			data_l.source_thread = 0;
 			data_l.dest_thread = partner_rank;
-			data_l.latency = (tend - tstart)/10;
+			data_l.latency = (tend - tstart)/(2*PING_PONG_LIMIT);
 			submit_latency_data(data_l);
-
-			printf("Latency for process %d = %lf\n",partner_rank, (tend-tstart)/10);
 		}
 	}
 	MPI_Finalize();
