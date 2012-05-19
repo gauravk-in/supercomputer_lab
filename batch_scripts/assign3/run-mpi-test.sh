@@ -32,8 +32,8 @@ cd $PATH_SOURCE
 rm -rf $OUTPUT_PATH
 mkdir $OUTPUT_PATH
 
-make clean
-make > $OUTPUT_PATH"/make-result-mpp.out"
+#make clean
+#make > $OUTPUT_PATH"/make-result-mpp.out"
 
 for i in ${num_of_proc[@]}
 do
@@ -45,7 +45,7 @@ do
 $EXEC_CMD $i ./ping-pong $OUTPUT_PATH"/ping_pong_"$i".out"
 done
 
-for i in {num_of_proc[@]}
+for i in ${num_of_proc[@]}
 do
 $EXEC_CMD $i ./ping-pong-bandwidth $OUTPUT_PATH"/bandwidth_"$i".out"
 done

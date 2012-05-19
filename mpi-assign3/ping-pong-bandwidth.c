@@ -7,6 +7,8 @@
 #define MAX_CMDARG 2
 char *filename;
 
+#define PING_PONG_COUNT 100
+
 struct data_bandwidth data_b;
 
 void usage()
@@ -17,7 +19,7 @@ void usage()
 
 int main (int argc, char **argv)
 {
-	int my_proc, other_proc, i, j, nprocs, size;
+	int my_proc, i, j, nprocs, size;
 	int tag=10;
 	char *msg;
 	char *buffer;
@@ -37,26 +39,25 @@ int main (int argc, char **argv)
 	{
 		for(i=1; i<nprocs; i++)
 		{
-			other_proc=i;
 			for(size=0; size<=20;size++)
 			{
-				buffer=malloc(pow(2,size)*sizeof(char));
+				buffer=malloc((pow(2,size)+5)*sizeof(char));
 				msg=calloc(pow(2, size),sizeof(char));
 
 				tstart = MPI_Wtime();   
-				for(j=0; j<5; j++)
+				for(j=0; j<PING_PONG_COUNT; j++)
 				{
-					MPI_Send(msg, pow(2, size), MPI_CHAR, other_proc, 10, MPI_COMM_WORLD);
-					MPI_Recv(buffer, pow(2, size), MPI_CHAR, other_proc, 10, MPI_COMM_WORLD, &status);
+					MPI_Send(msg, pow(2, size), MPI_CHAR, i, 10, MPI_COMM_WORLD);
+					MPI_Recv(buffer, pow(2, size), MPI_CHAR, i, 10, MPI_COMM_WORLD, &status);
 				}
 				tend = MPI_Wtime();
 				free(msg);
 				free(buffer);
 				data_b.source_thread = 0;
-				data_b.dest_thread = other_proc;
+				data_b.dest_thread = i;
 				data_b.log_size = size;
-				data_b.time = (tend - tstart)/10;
-				data_b.bandwidth = 0;
+				data_b.time = (tend - tstart)/(2*PING_PONG_COUNT);
+				data_b.bandwidth = pow(2, size)/data_b.time;
 				submit_bandwidth_data(data_b);
 			}
 		}
@@ -67,7 +68,7 @@ int main (int argc, char **argv)
 		{
 			buffer=malloc(pow(2,size)*sizeof(char));
 
-			for(j=0; j<5; j++)
+			for(j=0; j<PING_PONG_COUNT; j++)
 			{
 				MPI_Recv(buffer, pow(2,size), MPI_CHAR, 0, 10, MPI_COMM_WORLD, &status);
 				MPI_Send(buffer, pow(2,size), MPI_CHAR, 0, 10, MPI_COMM_WORLD);

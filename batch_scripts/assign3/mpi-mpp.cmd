@@ -13,5 +13,5 @@
 
 source /etc/profile.d/modules.sh
 
-srun_ps /home/cluster/h039v/h039val/assign3/supercomputer/batch_scripts/run-mpi-test.sh mpp > /home/cluster/h039v/h039val/assign3/tmp/out_mpp_script.$JOB_ID.out
+srun_ps /home/cluster/h039v/h039val/assign3/supercomputer/batch_scripts/assign3/run-mpi-test.sh mpp > /home/cluster/h039v/h039val/assign3/tmp/out_mpp_script.$JOB_ID.out
 
