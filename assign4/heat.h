@@ -36,6 +36,8 @@ typedef struct
 
     unsigned   numsrcs;     // number of heat sources
     heatsrc_t *heatsrcs;
+int thread_dims[2]; 	//x*y dimensions of thread
+
 }
 algoparam_t;
 

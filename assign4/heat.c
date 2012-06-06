@@ -15,46 +15,57 @@
 
 void usage( char *s )
 {
-    fprintf(stderr, 
-	    "Usage: %s <input file> [result file]\n\n", s);
+	fprintf(stderr, 
+			"Usage: %s <input file> [result file]\n\n", s);
 }
 
 
 int main( int argc, char *argv[] )
 {
-    unsigned iter;
-    FILE *infile, *resfile;
-    char *resfilename;
+	unsigned iter;
+	FILE *infile, *resfile;
+	char *resfilename;
+	int periods[2]={false, false};
+	MPI_Comm comm2d;
+
+	int count, rank;
+	int thdx, thdy;
 
 	double *tmp;
 
-    // algorithmic parameters
-    algoparam_t param;
-    int np;
+	// algorithmic parameters
+	algoparam_t param;
+	int np;
 
-    double runtime, flop;
-    double residual;
+	double runtime, flop;
+	double residual;
+	
+	int coords[2];
 
-    // check arguments
-    if( argc < 2 )
-    {
-	usage( argv[0] );
-	return 1;
-    }
+	MPI_Init(&argc, &argv);
+	MPI_Comm_size(MPI_COMM_WORLD, &nthreads);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	
+	// check arguments
+	if( argc < 2 )
+	{
+		usage( argv[0] );
+		return 1;
+	}
 
-    // check input file
-    if( !(infile=fopen(argv[1], "r"))  ) 
-    {
-	fprintf(stderr, 
-		"\nError: Cannot open \"%s\" for reading.\n\n", argv[1]);
-      
-	usage(argv[0]);
-	return 1;
-    }
-  
+	// check input file
+	if( !(infile=fopen(argv[1], "r"))  ) 
+	{
+		fprintf(stderr, 
+				"\nError: Cannot open \"%s\" for reading.\n\n", argv[1]);
 
-    // check result file
-    resfilename= (argc>=3) ? argv[2]:"heat.ppm";
+		usage(argv[0]);
+		return 1;
+	}
+
+#if 0
+	// check result file
+	resfilename= (argc>=3) ? argv[2]:"heat.ppm";
 
     if( !(resfile=fopen(resfilename, "w")) )
     {
@@ -65,6 +76,7 @@ int main( int argc, char *argv[] )
 	usage(argv[0]);
 	return 1;
     }
+#endif
 
     // check input
     if( !read_input(infile, &param) )
@@ -75,6 +87,10 @@ int main( int argc, char *argv[] )
 	return 1;
     }
 
+        MPI_Cart_create(MPI_COMM_WORLD, 2, param.thread_dims, periods, false, &comm2d);
+	MPI_Cart_coords(comm2d, rank, 2, &coords);
+
+if(myid==0) 
     print_params(&param);
 
     // set the visualization resolution
@@ -82,7 +98,6 @@ int main( int argc, char *argv[] )
 
     param.u     = 0;
     param.uhelp = 0;
-    param.uvis  = 0;
 
     param.act_res = param.initial_res;
 
@@ -159,13 +174,6 @@ int main( int argc, char *argv[] )
 	if (param.act_res + param.res_step_size > param.max_res) break;
 	param.act_res += param.res_step_size;
     }
-
-    coarsen( param.u, np, np,
-	     param.uvis, param.visres+2, param.visres+2 );
-  
-    write_image( resfile, param.uvis,  
-		 param.visres+2, 
-		 param.visres+2 );
 
     finalize( &param );
 

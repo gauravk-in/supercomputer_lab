@@ -24,20 +24,19 @@ int initialize( algoparam_t *param )
     int i, j;
     double dist;
 
-    // total number of points (including border)
+    // total number of points 
     const int np = param->act_res + 2;
   
     //
     // allocate memory
     //
-    (param->u)     = (double*)calloc( sizeof(double),np*np );
-    (param->uhelp) = (double*)calloc( sizeof(double),np*np );
-    (param->uvis)  = (double*)calloc( sizeof(double),
-				      (param->visres+2) *
-				      (param->visres+2) );
-  
+	block_size_x=param->act_res / param->thread_dims[0];
+	block_size_y=param->act_res / param->thread_dims[1];
 
-    if( !(param->u) || !(param->uhelp) || !(param->uvis) )
+    (param->u)     = (double*)calloc( sizeof(double),(block_size_x + 2)*(block_size_y + 2) );
+    (param->uhelp) = (double*)calloc( sizeof(double),(block_size_x + 2)*(block_size_y + 2) );
+
+    if( !(param->u) || !(param->uhelp) )
     {
 	fprintf(stderr, "Error: Cannot allocate memory\n");
 	return 0;
@@ -46,9 +45,11 @@ int initialize( algoparam_t *param )
     for( i=0; i<param->numsrcs; i++ )
     {
 	/* top row */
-	for( j=0; j<np; j++ )
+	if(coords[1]==0)
 	{
-	    dist = sqrt( pow((double)j/(double)(np-1) - 
+	for( j=0 ; j<block_size_x + 1 ; j++ )
+	{
+	    dist = sqrt( pow((double)(j + (block_size_x * coords[0]) )/ (double)(np-1) - 
 			     param->heatsrcs[i].posx, 2)+
 			 pow(param->heatsrcs[i].posy, 2));
 	  
@@ -61,56 +62,67 @@ int initialize( algoparam_t *param )
 		(param->uhelp)[j] = (param->u)[j];
 	    }
 	}
-      
+ 	}	
 	/* bottom row */
-	for( j=0; j<np; j++ )
+	if(coords[1]==thread_dims[1]-1)
 	{
-	    dist = sqrt( pow((double)j/(double)(np-1) - 
-			     param->heatsrcs[i].posx, 2)+
-			 pow(1-param->heatsrcs[i].posy, 2));
-	  
+	for( j=0; j<block_size_x + 1 ; j++ )
+	{
+
+            dist = sqrt( pow((double)(j + (block_size_x * coords[0]) )/ (double)(np-1) -
+                             param->heatsrcs[i].posx, 2)+
+                         pow(1-param->heatsrcs[i].posy, 2));
+
 	    if( dist <= param->heatsrcs[i].range )
 	    {
-		(param->u)[(np-1)*np+j]+=
+		(param->u)[(block_size_y+1)*(block_size_x+2) + j] +=
 		    (param->heatsrcs[i].range-dist) / 
 		    param->heatsrcs[i].range * 
 		    param->heatsrcs[i].temp;
-		(param->uhelp)[(np-1)*np+j] = (param->u)[(np-1)*np+j];
+		(param->uhelp)[(block_size_y+1)*(block_size_x+2)+j] = (param->u)[(block_size_y+1)*(block_size_x+2)+j];
 	    }
 	}
-      
+      }
+
+	if(coords[0]==0) 
+	{
 	/* leftmost column */
-	for( j=1; j<np-1; j++ )
+	for( j=0; j<block_size_y+1; j++ )
 	{
 	    dist = sqrt( pow(param->heatsrcs[i].posx, 2)+
-			 pow((double)j/(double)(np-1) - 
+			 pow((double)(j + (block_size_y * coords[1]) ) / (double)(np-1) - 
 			     param->heatsrcs[i].posy, 2)); 
 	  
 	    if( dist <= param->heatsrcs[i].range )
 	    {
-		(param->u)[ j*np ]+=
+		(param->u)[ j*(block_size_x+2) ]+=
 		    (param->heatsrcs[i].range-dist) / 
 		    param->heatsrcs[i].range *
 		    param->heatsrcs[i].temp;
-		(param->uhelp)[ j*np ] = (param->u)[ j*np ];
+		(param->uhelp)[ j*(block_size_x+2) ] = (param->u)[ j*(block_size_x+2) ];
 	    }
 	}
-      
+      }
+
+	if(coords[0]==1)
+	{	
 	/* rightmost column */
-	for( j=1; j<np-1; j++ )
+	for( j=1; j<block_size_y+1; j++ )
 	{
-	    dist = sqrt( pow(1-param->heatsrcs[i].posx, 2)+
-			 pow((double)j/(double)(np-1) - 
-			     param->heatsrcs[i].posy, 2)); 
-	  
+	 
+            dist = sqrt( pow(1 - param->heatsrcs[i].posx, 2)+
+                         pow((double)(j + (block_size_y * coords[1]) ) / (double)(np-1) -  
+                             param->heatsrcs[i].posy, 2));
+ 
 	    if( dist <= param->heatsrcs[i].range )
 	    {
-		(param->u)[ j*np+(np-1) ]+=
+		(param->u)[ j*(block_size_x+2)+(block_size_x+1) ]+=
 		    (param->heatsrcs[i].range-dist) /
 		    param->heatsrcs[i].range *
 		    param->heatsrcs[i].temp;
-		(param->uhelp)[ j*np+(np-1) ] = (param->u)[ j*np+(np-1) ];
+		(param->uhelp)[ j*(block_size_x+2)+(block_size_x+1) ] = (param->u)[ j*(block_size_x+2)+(block_size_x+1) ];
 	    }
+	}
 	}
     }
 
@@ -132,117 +144,6 @@ int finalize( algoparam_t *param )
 	param->uhelp = 0;
     }
 
-    if( param->uvis ) {
-	free(param->uvis);
-	param->uvis = 0;
-    }
-
     return 1;
-}
-
-
-/*
- * write the given temperature u matrix to rgb values
- * and write the resulting image to file f
- */
-void write_image( FILE * f, double *u,
-		  unsigned sizex, unsigned sizey ) 
-{
-    // RGB table
-    unsigned char r[1024], g[1024], b[1024];
-    int i, j, k;
-  
-    double min, max;
-
-    j=1023;
-
-    // prepare RGB table
-    for( i=0; i<256; i++ )
-    {
-	r[j]=255; g[j]=i; b[j]=0;
-	j--;
-    }
-    for( i=0; i<256; i++ )
-    {
-	r[j]=255-i; g[j]=255; b[j]=0;
-	j--;
-    }
-    for( i=0; i<256; i++ )
-    {
-	r[j]=0; g[j]=255; b[j]=i;
-	j--;
-    }
-    for( i=0; i<256; i++ )
-    {
-	r[j]=0; g[j]=255-i; b[j]=255;
-	j--;
-    }
-
-    min=DBL_MAX;
-    max=-DBL_MAX;
-
-    // find minimum and maximum 
-    for( i=0; i<sizey; i++ )
-    {
-	for( j=0; j<sizex; j++ )
-	{
-	    if( u[i*sizex+j]>max )
-		max=u[i*sizex+j];
-	    if( u[i*sizex+j]<min )
-		min=u[i*sizex+j];
-	}
-    }
-  
-
-    fprintf(f, "P3\n");
-    fprintf(f, "%u %u\n", sizex, sizey);
-    fprintf(f, "%u\n", 255);
-
-    for( i=0; i<sizey; i++ )
-    {
-	for( j=0; j<sizex; j++ )
-	{
-	    k=(int)(1024.0*(u[i*sizex+j]-min)/(max-min));
-	    fprintf(f, "%d %d %d  ", r[k], g[k], b[k]);
-	}
-	fprintf(f, "\n");
-    }
-}
-
-
-int coarsen( double *uold, unsigned oldx, unsigned oldy ,
-	     double *unew, unsigned newx, unsigned newy )
-{
-    int i, j;
-
-    int stepx;
-    int stepy;
-    int stopx = newx;
-    int stopy = newy;
-
-    if (oldx>newx)
-	stepx=oldx/newx;
-    else {
-	stepx=1;
-	stopx=oldx;
-    }
-    if (oldy>newy)
-	stepy=oldy/newy;
-    else {
-	stepy=1;
-	stopy=oldy;
-    }
-
-    // NOTE: this only takes the top-left corner,
-    // and doesnt' do any real coarsening 
-    for( i=0; i<stopy-1; i++ )
-    {
-	for( j=0; j<stopx-1; j++ )
-        {
-	    unew[i*newx+j]=uold[i*oldx*stepy+j*stepx];
-        }
-    }
-
-  return 1;
 }
 

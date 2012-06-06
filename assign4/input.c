@@ -15,6 +15,11 @@ int read_input( FILE *infile, algoparam_t *param )
   char buf[BUFSIZE];
 
   fgets(buf, BUFSIZE, infile);
+  n = sscanf( buf, "%u %u", &(param->thread_dims[0]), &(param->thread_dims[1]) );
+  if( n!=1 )
+    return 0;
+
+  fgets(buf, BUFSIZE, infile);
   n = sscanf( buf, "%u", &(param->maxiter) );
   if( n!=1 )
     return 0;
