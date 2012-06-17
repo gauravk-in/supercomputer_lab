@@ -15,8 +15,8 @@ int read_input( FILE *infile, algoparam_t *param )
   char buf[BUFSIZE];
 
   fgets(buf, BUFSIZE, infile);
-  n = sscanf( buf, "%u %u", &(param->thread_dims[0]), &(param->thread_dims[1]) );
-  if( n!=1 )
+  n = sscanf( buf, "%d %d", &(param->thread_dims[0]), &(param->thread_dims[1]) );
+  if( n!=2 )
     return 0;
 
   fgets(buf, BUFSIZE, infile);

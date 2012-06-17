@@ -1,6 +1,6 @@
 # Intel compiler
-CC =  icc
-CFLAGS = -g
+CC = mpicc
+CFLAGS =-O3
 
 MPICC = mpicc
 

@@ -8,6 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define FALSE 0
+#define TRUE 1
+#define INTERLEAVING_COUNT 1024 
+
 #include "input.h"
 #include "heat.h"
 #include "timing.h"
@@ -25,10 +29,10 @@ int main( int argc, char *argv[] )
 	unsigned iter;
 	FILE *infile, *resfile;
 	char *resfilename;
-	int periods[2]={false, false};
+	int periods[2]={FALSE, FALSE};
 	MPI_Comm comm2d;
 
-	int count, rank;
+	int nthreads, rank;
 	int thdx, thdy;
 
 	double *tmp;
@@ -50,6 +54,7 @@ int main( int argc, char *argv[] )
 	if( argc < 2 )
 	{
 		usage( argv[0] );
+		MPI_Finalize();
 		return 1;
 	}
 
@@ -60,47 +65,37 @@ int main( int argc, char *argv[] )
 				"\nError: Cannot open \"%s\" for reading.\n\n", argv[1]);
 
 		usage(argv[0]);
+		MPI_Finalize();
 		return 1;
 	}
 
-#if 0
-	// check result file
-	resfilename= (argc>=3) ? argv[2]:"heat.ppm";
-
-    if( !(resfile=fopen(resfilename, "w")) )
-    {
-	fprintf(stderr, 
-		"\nError: Cannot open \"%s\" for writing.\n\n", 
-		resfilename);
-      
-	usage(argv[0]);
-	return 1;
-    }
-#endif
-
     // check input
+ 
     if( !read_input(infile, &param) )
     {
 	fprintf(stderr, "\nError: Error parsing input file.\n\n");
       
 	usage(argv[0]);
+	MPI_Finalize();
 	return 1;
     }
 
-        MPI_Cart_create(MPI_COMM_WORLD, 2, param.thread_dims, periods, false, &comm2d);
-	MPI_Cart_coords(comm2d, rank, 2, &coords);
 
-if(myid==0) 
-    print_params(&param);
+    MPI_Cart_create(MPI_COMM_WORLD, 2, param.thread_dims, periods, FALSE, &comm2d);
+    MPI_Cart_coords(comm2d, rank, 2, coords);
 
-    // set the visualization resolution
-    param.visres = param.max_res;
+    if(rank==0) 
+	print_params(&param);
 
     param.u     = 0;
     param.uhelp = 0;
+    param.sendbuf_left =0;
+    param.sendbuf_right = 0;
+    param.recbuf_left = 0;
+    param.recbuf_right =0;
 
     param.act_res = param.initial_res;
-
+ 
     // loop over different resolutions
     while(1) {
 
@@ -108,7 +103,7 @@ if(myid==0)
 	if (param.u != 0)
 	    finalize(&param);
 
-	if( !initialize(&param) )
+	if( !initialize(&param, coords) )
 	{
 	    fprintf(stderr, "Error in Jacobi initialization.\n\n");
 
@@ -121,9 +116,9 @@ if(myid==0)
 	np = param.act_res + 2;
     
 	// starting time
-	runtime = wtime();
+	runtime = MPI_Wtime();
 	residual = 999999999;
-
+ 	
 	iter = 0;
 	while(1) {
 
@@ -138,13 +133,11 @@ if(myid==0)
 		    break;
 
 		case 1: // GAUSS
-
-		    relax_gauss(param.u, np, np);
-		    residual = residual_gauss( param.u, param.uhelp, np, np);
+		    residual = relax_gauss_return_residual(&param, INTERLEAVING_COUNT, coords , comm2d);
 		    break;
 	    }
 	    
-	    iter++;
+	    iter+= INTERLEAVING_COUNT;
 
 	    // solution good enough ?
 	    if (residual < 0.000005) break;
@@ -155,27 +148,30 @@ if(myid==0)
 	    if (iter % 100 == 0)
 		fprintf(stderr, "residual %f, %d iterations\n", residual, iter);
 	}
-
+	
 	// Flop count after <i> iterations
-	flop = iter * 11.0 * param.act_res * param.act_res;
+	flop = iter * 7.0 * param.act_res * param.act_res;
 	// stopping time
-	runtime = wtime() - runtime;
+	runtime = MPI_Wtime() - runtime;
 
-	fprintf(stderr, "Resolution: %5u, ", param.act_res);
-	fprintf(stderr, "Time: %04.3f ", runtime);
-	fprintf(stderr, "(%3.3f GFlop => %6.2f MFlop/s, ", 
-		flop/1000000000.0,
-		flop/runtime/1000000);
-	fprintf(stderr, "residual %f, %d iterations)\n", residual, iter);
+	if (rank == 0)
+	{
+		fprintf(stderr, "Resolution: %5u, ", param.act_res);
+		fprintf(stderr, "Time: %04.3f ", runtime);
+		fprintf(stderr, "(%3.3f GFlop => %6.2f MFlop/s, ", 
+			flop/1000000000.0,
+			flop/runtime/1000000);
+		fprintf(stderr, "residual %f, %d iterations)\n", residual, iter);
 
-	// for plot...
-	printf("%5d %f\n", param.act_res, flop/runtime/1000000);
+		// for plot...
+		printf("%5d %f\n", param.act_res, flop/runtime/1000000);
+	}
 
 	if (param.act_res + param.res_step_size > param.max_res) break;
 	param.act_res += param.res_step_size;
     }
 
     finalize( &param );
-
+    MPI_Finalize();
     return 0;
 }
