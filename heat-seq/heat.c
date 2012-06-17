@@ -16,162 +16,164 @@
 
 void usage( char *s )
 {
-    fprintf(stderr, 
-	    "Usage: %s <input file> [result file]\n\n", s);
+	fprintf(stderr, 
+			"Usage: %s <input file> [result file]\n\n", s);
 }
 
 
 int main( int argc, char *argv[] )
 {
-    unsigned iter;
-    FILE *infile, *resfile;
-    char *resfilename;
+	unsigned iter;
+	FILE *infile, *resfile;
+	char *resfilename;
 
 	int Interleaving_Count;
 	double *tmp;
-	
-    // algorithmic parameters
-    algoparam_t param;
-    int np;
 
-    double runtime, flop;
-    double residual;
+	// algorithmic parameters
+	algoparam_t param;
+	int np;
 
-    // check arguments
-    if( argc < 2 )
-    {
-	usage( argv[0] );
-	return 1;
-    }
+	double runtime, flop;
+	double residual;
 
-    // check input file
-    if( !(infile=fopen(argv[1], "r"))  ) 
-    {
-	fprintf(stderr, 
-		"\nError: Cannot open \"%s\" for reading.\n\n", argv[1]);
-      
-	usage(argv[0]);
-	return 1;
-    }
-  
-
-    // check result file
-    resfilename= (argc>=3) ? argv[2]:"heat.ppm";
-
-    if( !(resfile=fopen(resfilename, "w")) )
-    {
-	fprintf(stderr, 
-		"\nError: Cannot open \"%s\" for writing.\n\n", 
-		resfilename);
-      
-	usage(argv[0]);
-	return 1;
-    }
-
-    // check input
-    if( !read_input(infile, &param) )
-    {
-	fprintf(stderr, "\nError: Error parsing input file.\n\n");
-      
-	usage(argv[0]);
-	return 1;
-    }
-
-    print_params(&param);
-
-    // set the visualization resolution
-    param.visres = param.max_res;
-
-    param.u     = 0;
-    param.uhelp = 0;
-    param.uvis  = 0;
-
-    param.act_res = param.initial_res;
-
-    // loop over different resolutions
-    while(1) {
-
-	// free allocated memory of previous experiment
-	if (param.u != 0)
-	    finalize(&param);
-
-	if( !initialize(&param) )
+	// check arguments
+	if( argc < 2 )
 	{
-	    fprintf(stderr, "Error in Jacobi initialization.\n\n");
-
-	    usage(argv[0]);
+		usage( argv[0] );
+		return 1;
 	}
 
-	fprintf(stderr, "Resolution: %5u\r", param.act_res);
+	// check input file
+	if( !(infile=fopen(argv[1], "r"))  ) 
+	{
+		fprintf(stderr, 
+				"\nError: Cannot open \"%s\" for reading.\n\n", argv[1]);
 
-	// full size (param.act_res are only the inner points)
-	np = param.act_res + 2;
-    
-	// starting time
-	runtime = wtime();
-	residual = 999999999;
+		usage(argv[0]);
+		return 1;
+	}
 
-	iter = 0;
+
+	// check result file
+	resfilename= (argc>=3) ? argv[2]:"heat.ppm";
+
+	if( !(resfile=fopen(resfilename, "w")) )
+	{
+		fprintf(stderr, 
+				"\nError: Cannot open \"%s\" for writing.\n\n", 
+				resfilename);
+
+		usage(argv[0]);
+		return 1;
+	}
+
+	// check input
+	if( !read_input(infile, &param) )
+	{
+		fprintf(stderr, "\nError: Error parsing input file.\n\n");
+
+		usage(argv[0]);
+		return 1;
+	}
+
+	print_params(&param);
+
+	// set the visualization resolution
+	param.visres = param.max_res;
+
+	param.u     = 0;
+	param.uhelp = 0;
+	param.uvis  = 0;
+
+	param.act_res = param.initial_res;
+
+	// loop over different resolutions
 	while(1) {
 
-	    switch( param.algorithm ) {
+		// free allocated memory of previous experiment
+		if (param.u != 0)
+			finalize(&param);
 
-		case 0: // JACOBI
-      
-			Interleaving_Count = INTERLEAVING_COUNT;
+		if( !initialize(&param) )
+		{
+			fprintf(stderr, "Error in Jacobi initialization.\n\n");
 
-			residual = relax_jacobi_return_residual(param.u, param.uhelp, np, np, Interleaving_Count);
-			tmp=param.u;
-			param.u=param.uhelp;
-			param.uhelp=tmp;
-		    break;
+			usage(argv[0]);
+		}
 
-		case 1: // GAUSS
+		fprintf(stderr, "Resolution: %5u\r", param.act_res);
 
-		    relax_gauss(param.u, np, np);
-		    residual = residual_gauss( param.u, param.uhelp, np, np);
-		    break;
-	    }
-	    
-	    iter = iter + Interleaving_Count;
+		// full size (param.act_res are only the inner points)
+		np = param.act_res + 2;
 
-	    // solution good enough ?
-	    if (residual < 0.000005) break;
+		// starting time
+		runtime = wtime();
+		residual = 999999999;
 
-	    // max. iteration reached ? (no limit with maxiter=0)
-	    if (param.maxiter>0 && iter>=param.maxiter) break;
-	    
-	    if (iter % 100 == 0)
-		fprintf(stderr, "residual %f, %d iterations\n", residual, iter);
+		iter = 0;
+		while(1) {
+
+			switch( param.algorithm ) {
+
+				case 0: // JACOBI
+
+					Interleaving_Count = INTERLEAVING_COUNT;
+
+					residual = relax_jacobi_return_residual(param.u, param.uhelp, np, np, Interleaving_Count);
+					tmp=param.u;
+					param.u=param.uhelp;
+					param.uhelp=tmp;
+					break;
+
+				case 1: // GAUSS
+
+					residual = relax_gauss_return_residual(param.u, np, np);
+					//		    residual = residual_gauss( param.u, param.uhelp, np, np);
+					break;
+			}
+			if(param.algorithm == 0) 
+				iter = iter + Interleaving_Count;
+			else
+				iter++;
+
+			// solution good enough ?
+			if (residual < 0.000005) break;
+
+			// max. iteration reached ? (no limit with maxiter=0)
+			if (param.maxiter>0 && iter>=param.maxiter) break;
+
+			if (iter % 100 == 0)
+				fprintf(stderr, "residual %f, %d iterations\n", residual, iter);
+		}
+
+		// Flop count after <i> iterations
+		flop = iter * 7.0 * param.act_res * param.act_res;
+		// stopping time
+		runtime = wtime() - runtime;
+
+		fprintf(stderr, "Resolution: %5u, ", param.act_res);
+		fprintf(stderr, "Time: %04.3f ", runtime);
+		fprintf(stderr, "(%3.3f GFlop => %6.2f MFlop/s, ", 
+				flop/1000000000.0,
+				flop/runtime/1000000);
+		fprintf(stderr, "residual %f, %d iterations)\n", residual, iter);
+
+		// for plot...
+		printf("%5d %f\n", param.act_res, flop/runtime/1000000);
+
+		if (param.act_res + param.res_step_size > param.max_res) break;
+		param.act_res += param.res_step_size;
 	}
 
-	// Flop count after <i> iterations
-	flop = iter * 11.0 * param.act_res * param.act_res;
-	// stopping time
-	runtime = wtime() - runtime;
+	coarsen( param.u, np, np,
+			param.uvis, param.visres+2, param.visres+2 );
 
-	fprintf(stderr, "Resolution: %5u, ", param.act_res);
-	fprintf(stderr, "Time: %04.3f ", runtime);
-	fprintf(stderr, "(%3.3f GFlop => %6.2f MFlop/s, ", 
-		flop/1000000000.0,
-		flop/runtime/1000000);
-	fprintf(stderr, "residual %f, %d iterations)\n", residual, iter);
+	write_image( resfile, param.uvis,  
+			param.visres+2, 
+			param.visres+2 );
 
-	// for plot...
-	printf("%5d %f\n", param.act_res, flop/runtime/1000000);
+	finalize( &param );
 
-	if (param.act_res + param.res_step_size > param.max_res) break;
-	param.act_res += param.res_step_size;
-    }
-
-    coarsen( param.u, np, np,
-	     param.uvis, param.visres+2, param.visres+2 );
-  
-    write_image( resfile, param.uvis,  
-		 param.visres+2, 
-		 param.visres+2 );
-
-    finalize( &param );
-
-    return 0;
+	return 0;
 }

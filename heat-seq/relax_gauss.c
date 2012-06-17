@@ -7,6 +7,8 @@
 
 #include "heat.h"
 
+
+#if 0
 /*
  * Residual (length of error vector)
  * between current solution and next after a Gauss-Seidel step
@@ -47,27 +49,32 @@ double residual_gauss( double *u, double *utmp,
 
     return sum;
 }
-
+#endif
 
 /*
  * One Gauss-Seidel iteration step
  *
  * Flop count in inner body is 4
  */
-void relax_gauss( double *u, 
-		  unsigned sizex, unsigned sizey )
+double relax_gauss_return_residual( double *u, 
+		unsigned sizex, unsigned sizey )
 {
-    unsigned i, j;
-  
+	unsigned i, j;
+	double temp, diff, residual;
+	residual =0; 
 
-    for( i=1; i<sizey-1; i++ )
-    {
-	for( j=1; j<sizex-1; j++ )
+	for( i=1; i<sizey-1; i++ )
 	{
-	    u[i*sizex+j]= 0.25 * (u[ i*sizex     + (j-1) ]+
-				  u[ i*sizex     + (j+1) ]+
-				  u[ (i-1)*sizex + j     ]+
-				  u[ (i+1)*sizex + j     ]);
+		for( j=1; j<sizex-1; j++ )
+		{
+			temp = u[i*sizex+j];
+			u[i*sizex+j]= 0.25 * (u[ i*sizex     + (j-1) ]+
+					u[ i*sizex     + (j+1) ]+
+					u[ (i-1)*sizex + j     ]+
+					u[ (i+1)*sizex + j     ]);
+			diff = u[i*sizex+j] - temp;
+			residual += diff*diff;
+		}
 	}
-    }
+	return residual;
 }
