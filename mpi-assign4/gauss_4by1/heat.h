@@ -35,6 +35,7 @@ typedef struct
   
     double *u, *uhelp;
     double *sendbuf_left, *recbuf_left, *sendbuf_right, *recbuf_right;
+    double *sendbuf_top, *recbuf_top, *sendbuf_bottom, *recbuf_bottom;
 
     unsigned   numsrcs;     // number of heat sources
     heatsrc_t *heatsrcs;

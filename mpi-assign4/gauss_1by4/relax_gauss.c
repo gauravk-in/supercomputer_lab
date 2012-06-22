@@ -87,7 +87,7 @@ double relax_gauss_return_residual( algoparam_t *param, int interleaving_count, 
                 }
 
 
-                // Receive border values from bottom block
+                // Request receive border values from bottom block
                 if (rank_bottom != -1)
                 {
                         if(k>0)
@@ -111,7 +111,7 @@ double relax_gauss_return_residual( algoparam_t *param, int interleaving_count, 
 			}
 		}
 
-		// Receive border values from bottom block
+		// Wait for receive border values from bottom block
 		if (rank_bottom != -1)
 		{	
 			if (k>0)
@@ -122,7 +122,7 @@ double relax_gauss_return_residual( algoparam_t *param, int interleaving_count, 
 			}				
 		}
 
-		// do the calculation for the lower right border
+		// calculate the bottom row
 		i = size_y-2;
 		for( j=1; j<size_x-1; j++ )
 		{
@@ -150,7 +150,7 @@ double relax_gauss_return_residual( algoparam_t *param, int interleaving_count, 
 			// Receive border values from bottom block
 			if (rank_bottom != -1)
 			{		
-				MPI_Recv(&(param->u[(size_y-1)*size_x+ j]), size_y - 2, MPI_DOUBLE, rank_right, 10, comm2d, &status);
+				MPI_Recv(&(param->u[(size_y-1)*size_x+ 1]), size_x - 2, MPI_DOUBLE, rank_bottom, 10, comm2d, &status);
 			}
 
 		}

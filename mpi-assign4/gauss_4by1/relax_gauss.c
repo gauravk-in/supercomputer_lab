@@ -100,7 +100,7 @@ double relax_gauss_return_residual( algoparam_t *param, int interleaving_count, 
 			}
 		}
 
-		// do the calculation for the left + inner part
+		// do the calculation for the inner part
 		for( i=1; i < size_y-1; i++ )
 		{
 			for( j=2; j<size_x-2; j++ )

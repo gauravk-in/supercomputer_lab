@@ -74,6 +74,7 @@ void print_params( algoparam_t *param )
 {
   int i;
 
+  fprintf(stderr, "Number of Threads: (%d x %d)\n", param->thread_dims[0], param->thread_dims[1]);
   fprintf(stderr, "Resolutions       : (%u, %u, ... %u)\n",
 	  param->initial_res,
 	  param->initial_res + param->res_step_size,

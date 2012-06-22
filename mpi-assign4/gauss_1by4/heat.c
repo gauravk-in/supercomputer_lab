@@ -10,7 +10,8 @@
 
 #define FALSE 0
 #define TRUE 1
-#define INTERLEAVING_COUNT 1024
+#define INTERLEAVING_COUNT 10
+
 #include "input.h"
 #include "heat.h"
 #include "timing.h"
@@ -113,7 +114,8 @@ int main( int argc, char *argv[] )
 	    usage(argv[0]);
 	}
 
-	fprintf(stderr, "Resolution: %5u\r", param.act_res);
+	if (rank==0)
+		fprintf(stderr, "Resolution: %5u\r", param.act_res);
 
 	// full size (param.act_res are only the inner points)
 	np = param.act_res + 2;

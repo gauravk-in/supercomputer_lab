@@ -10,7 +10,7 @@
 
 #define FALSE 0
 #define TRUE 1
-#define INTERLEAVING_COUNT 1024 
+#define INTERLEAVING_COUNT 10
 
 #include "input.h"
 #include "heat.h"
@@ -93,6 +93,10 @@ int main( int argc, char *argv[] )
     param.sendbuf_right = 0;
     param.recbuf_left = 0;
     param.recbuf_right =0;
+    param.sendbuf_top =0;
+    param.sendbuf_bottom = 0;
+    param.recbuf_top = 0;
+    param.recbuf_bottom =0;
 
     param.act_res = param.initial_res;
  

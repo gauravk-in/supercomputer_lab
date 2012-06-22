@@ -1,5 +1,5 @@
-1 16    # x and y dimensions for threads
-1024     # iterations
+1 4    # x and y dimensions for threads
+50     # iterations
 256    # initial resolution
 4096   # max resolution (spatial resolution)
 3840    # resolution step size
