@@ -30,7 +30,7 @@ Evaluator ev;
 int myColor = Board::color1;
 
 /* Which search strategy to use? */
-int strategyNo = 0;
+int strategyNo = 2;
 
 /* Max search depth */
 int maxDepth = 0;

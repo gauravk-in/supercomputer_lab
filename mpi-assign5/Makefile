@@ -5,7 +5,7 @@
 #CXX = g++
 
 # Use this for the Intel C++ compiler ("icc" is only the C version)
-CXX = icpc
+CXX = g++
 
 # Use this for MPI
 #CXX = mpiCC
@@ -23,7 +23,7 @@ LDFLAGS=
 
 
 LIB_OBJS = move.o board.o network.o search.o eval.o
-SEARCH_OBJS = $(LIB_OBJS) search-abid.o search-onelevel.o
+SEARCH_OBJS = $(LIB_OBJS) search-abid.o search-onelevel.o search-minimax.o
 
 all: player start referee
 
@@ -52,3 +52,4 @@ start.o: start.cpp board.cpp move.cpp
 referee.o: referee.cpp board.cpp move.cpp
 search-onelevel.o: search.h board.h eval.h
 search-abid.o: search.h board.h
+search-minimax.o: search.h board.h eval.h
