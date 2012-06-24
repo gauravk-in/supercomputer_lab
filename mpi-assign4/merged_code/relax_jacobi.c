@@ -87,9 +87,7 @@ double relax_jacobi_return_residual( algoparam_t *param, int *coords, MPI_Comm c
 	// Send border values to bottom neighbor
 		if (rank_bottom != -1)
 		{
-			for (j=1; j < size_x -1; j++)
-				param->sendbuf_bottom[j-1] = param->uhelp[(size_y-2)*size_x + j];
-			MPI_Isend(param->sendbuf_bottom, size_x - 2, MPI_DOUBLE, rank_bottom, 10, comm2d, &sendrq_bottom);
+			MPI_Isend(&(param->uhelp[(size_y-2)*size_x + 1]), size_x - 2, MPI_DOUBLE, rank_bottom, 10, comm2d, &sendrq_bottom);
 		}
 	// Send border values to left neighbor
 		if (rank_left != -1)
@@ -101,9 +99,7 @@ double relax_jacobi_return_residual( algoparam_t *param, int *coords, MPI_Comm c
 	// Send border values to top neighbor
 		if (rank_top != -1)
 		{
-			for (j=1; j < size_x-1; j++)
-				param->sendbuf_top[j-1] = param->uhelp[1*size_x + j];
-			MPI_Isend(param->sendbuf_top, size_x - 2, MPI_DOUBLE, rank_top, 10, comm2d, &sendrq_top);	
+			MPI_Isend(&(param->uhelp[1*size_x + 1]), size_x - 2, MPI_DOUBLE, rank_top, 10, comm2d, &sendrq_top);	
 		}
 
 	// Request receive from right neighbor
@@ -115,7 +111,7 @@ double relax_jacobi_return_residual( algoparam_t *param, int *coords, MPI_Comm c
 	// Request receive from bottom neighbor
 		if (rank_bottom != -1)
 		{						
-			MPI_Irecv(param->recbuf_bottom, size_x - 2, MPI_DOUBLE, rank_bottom, 10, comm2d, &recrq_bottom);
+			MPI_Irecv(&(param->uhelp[(size_y-1)*size_x + 1]), size_x - 2, MPI_DOUBLE, rank_bottom, 10, comm2d, &recrq_bottom);
 		}
 	// Request receive from left neighbor
 		if (rank_left != -1)
@@ -126,7 +122,7 @@ double relax_jacobi_return_residual( algoparam_t *param, int *coords, MPI_Comm c
 	// Request receive from top neighbor
 		if (rank_top != -1)
 		{						
-			MPI_Irecv(param->recbuf_top, size_x - 2, MPI_DOUBLE, rank_top, 10, comm2d, &recrq_top);
+			MPI_Irecv(&(param->uhelp[1]), size_x - 2, MPI_DOUBLE, rank_top, 10, comm2d, &recrq_top);
 		}
 	
 	// Calculate the inner part
@@ -158,8 +154,6 @@ double relax_jacobi_return_residual( algoparam_t *param, int *coords, MPI_Comm c
 		if (rank_bottom != -1)
 		{
 			MPI_Wait(&recrq_bottom, &status);
-			for (j=1; j < size_x-1; j++)
-				param->uhelp[(size_y-1)*size_x+ j] = param->recbuf_bottom[j-1];
 		}
 	// Wait for data from left neighbor
 		if (rank_left != -1)
@@ -172,8 +166,6 @@ double relax_jacobi_return_residual( algoparam_t *param, int *coords, MPI_Comm c
 		if (rank_top != -1)
 		{
 			MPI_Wait(&recrq_top, &status);
-			for (j=1; j < size_x -1; j++)
-				param->uhelp[j] = param->recbuf_top[j-1];
 		}
 
 
