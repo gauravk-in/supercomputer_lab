@@ -1,9 +1,0 @@
-2 2    # x and y dimensions for threads
-50     # iterations
-1024    # initial resolution
-2048   # max resolution (spatial resolution)
-1024    # resolution step size
-1      # Algorithm 0=Jacobi 1=Gauss 
-2                     # number of heat sources
-0.0  0.0  1.0  1.0    # (x,y), size temperature
-1.0  1.0  1.0  0.5 
