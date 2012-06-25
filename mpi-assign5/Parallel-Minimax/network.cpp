@@ -271,29 +271,26 @@ char* Connection::addr()
 
 bool Connection::sendString(const char* str, int len)
 {
-	if(thread_rank == 0)
-	{
-		if (!reachable) return false;
+	if (!reachable) return false;
 
-		int s = ::socket (PF_INET, SOCK_STREAM, 0);
-		if (s<0) {
-			printf("Connection::sendString: Error in socket()\n");
-			return false;
-		}
-		if (::connect (s, (struct sockaddr *)&sin, sizeof (sin)) <0) {
-			if (verbose)
-				printf("Connection::sendString: Error in connect to %s\n", addr());
+	int s = ::socket (PF_INET, SOCK_STREAM, 0);
+	if (s<0) {
+		printf("Connection::sendString: Error in socket()\n");
+		return false;
+	}
+	if (::connect (s, (struct sockaddr *)&sin, sizeof (sin)) <0) {
+		if (verbose)
+			printf("Connection::sendString: Error in connect to %s\n", addr());
 
-			reachable = false;
-			return false;
-		}
+		reachable = false;
+		return false;
+	}
 
-		write(s, str, len);
-		::close(s);
+	write(s, str, len);
+	::close(s);
 
-		if (verbose>1)
-			printf("Connection::sendString: Sent to %s: '%s'\n", addr(), str);
-	}   
+	if (verbose>1)
+		printf("Connection::sendString: Sent to %s: '%s'\n", addr(), str);
 	return true;
 }
 
