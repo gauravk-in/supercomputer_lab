@@ -12,6 +12,9 @@
 
 #define pretty_print(name, val) printf("%s = %d: %s: %s: %d\n", name, val,  __FILE__,__FUNCTION__,__LINE__);
 
+#define likely(x)       __builtin_expect((x),1)
+#define unlikely(x)     __builtin_expect((x),0)
+
 /**
  * To create your own search strategy:
  * - copy this file into another one,
@@ -52,15 +55,17 @@ int MinimaxStrategy::minimax()
 {
 	Move m;
 	MoveList list;
-	int maxEval, minEval;
+//	int maxEval, minEval;
+	int bestEval;
 	int eval;	
 	int sign;
 
 	if(current_depth == MAX_DEPTH)
 		return evaluate();
 
-	maxEval = -17000;
-	minEval = 17000;
+	bestEval = -17000;
+//	maxEval = -17000;
+//	minEval = 17000;
 
 	generateMoves(list);
 	
@@ -72,6 +77,11 @@ int MinimaxStrategy::minimax()
 		return ((current_depth % 2) ==0) ? -16000 : 16000;
 	}
 
+	if((MAX_DEPTH-current_depth)%2 == 1)
+		sign = 1;
+	else
+		sign = -1;
+
 	while(list.getNext(m))	
 	{
 		if(current_depth < MAX_DEPTH)
@@ -82,6 +92,17 @@ int MinimaxStrategy::minimax()
 			takeBack();
 			current_depth--;
 		}
+
+		if(sign*eval > bestEval)
+		{
+			bestEval = sign*eval;
+			if(unlikely(current_depth == 0)) {
+				pretty_print("Eval", bestEval);
+				foundBestMove(0, m, eval);
+			}
+		}
+
+#if 0
 		if((MAX_DEPTH - current_depth +1) % 2 == 0)
 		{
 			if(eval > maxEval)
@@ -105,15 +126,20 @@ int MinimaxStrategy::minimax()
 
 			}
 		}
+#endif
 	}
+	bestEval = sign*bestEval;
 
 	if(current_depth == 0)
 		finishedNode(0,0);
-
+#if 0
 	if((MAX_DEPTH - current_depth +1) % 2 == 0)
 		return maxEval;
 	else
                 return minEval;
+#endif
+
+	return bestEval;
 }
 
 void MinimaxStrategy::searchBestMove()

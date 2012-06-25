@@ -1,0 +1,441 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ABIDStrategy	search-abid.cpp	/^    ABIDStrategy(): SearchStrategy("ABID", 2) {}$/;"	f	class:ABIDStrategy
+ABIDStrategy	search-abid.cpp	/^class ABIDStrategy: public SearchStrategy$/;"	c	file:
+AllFields	board.h	/^  enum { AllFields = 121, \/* visible + ring of unvisible around *\/$/;"	e	enum:Board::__anon8
+AllFields	eval.h	/^    enum { AllFields = 121, \/* visible + ring of unvisible around *\/$/;"	e	enum:Evaluator::__anon11
+BOARD_H	board.h	10;"	d
+Board	board.cpp	/^Board::Board()$/;"	f	class:Board
+Board	board.h	/^class Board$/;"	c
+CHECK	board.cpp	21;"	d	file:
+CXX	Makefile	/^CXX = icpc$/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS=-O3$/;"	m
+Connection	network.cpp	/^Connection::Connection(NetworkDomain* d, Connection* n,$/;"	f	class:Connection
+Connection	network.h	/^class Connection {$/;"	c
+DEFAULT_DOMAIN_DIFF	referee.cpp	49;"	d	file:
+DEFAULT_DOMAIN_PORT	referee.cpp	48;"	d	file:
+DEFAULT_DOMAIN_PORT	start.cpp	32;"	d	file:
+EVAL_H	eval.h	17;"	d
+EvalScheme	eval.cpp	/^EvalScheme::EvalScheme(char* file)$/;"	f	class:EvalScheme
+EvalScheme	eval.h	/^class EvalScheme$/;"	c
+Evaluator	eval.cpp	/^Evaluator::Evaluator()$/;"	f	class:Evaluator
+Evaluator	eval.h	/^class Evaluator$/;"	c
+ID	network.h	/^  int ID() { return myID; }$/;"	f	class:NetworkDomain
+InARowType	board.h	/^  enum InARowType { inARow2 = 0, inARow3, inARow4, inARow5, inARowCount };$/;"	g	class:MoveCounter
+LDFLAGS	Makefile	/^LDFLAGS=$/;"	m
+LIB_OBJS	Makefile	/^LIB_OBJS = move.o board.o network.o search.o eval.o$/;"	m
+Left	move.h	/^  enum { Right=1, RightDown, LeftDown, Left, LeftUp, RightUp };$/;"	e	enum:Move::__anon2
+LeftDown	move.h	/^  enum { Right=1, RightDown, LeftDown, Left, LeftUp, RightUp };$/;"	e	enum:Move::__anon2
+LeftUp	move.h	/^  enum { Right=1, RightDown, LeftDown, Left, LeftUp, RightUp };$/;"	e	enum:Move::__anon2
+MOVE_H	move.h	12;"	d
+MaxMoves	move.h	/^	enum { MaxMoves = 150 };$/;"	e	enum:MoveList::__anon4
+Move	move.h	/^  Move() { type = none; field = 0; direction = 0; }$/;"	f	class:Move
+Move	move.h	/^  Move(short f, char d, MoveType t)$/;"	f	class:Move
+Move	move.h	/^class Move$/;"	c
+MoveCounter	board.cpp	/^MoveCounter::MoveCounter()$/;"	f	class:MoveCounter
+MoveCounter	board.h	/^class MoveCounter$/;"	c
+MoveList	move.cpp	/^MoveList::MoveList()$/;"	f	class:MoveList
+MoveList	move.h	/^class MoveList$/;"	c
+MoveType	move.h	/^  enum MoveType { out2 = 0, out1with3, out1with2, push2,$/;"	g	class:Move
+MvsStored	board.h	/^         MvsStored = 100 };$/;"	e	enum:Board::__anon8
+MvsStored	eval.h	/^	   MvsStored = 100 };$/;"	e	enum:Evaluator::__anon11
+MyDomain	player.cpp	/^    MyDomain(int p) : NetworkDomain(p) {}$/;"	f	class:MyDomain
+MyDomain	player.cpp	/^class MyDomain: public NetworkDomain$/;"	c	file:
+MyDomain	referee.cpp	/^    MyDomain(int p) : NetworkDomain(p) {}$/;"	f	class:MyDomain
+MyDomain	referee.cpp	/^class MyDomain: public NetworkDomain$/;"	c	file:
+MyDomain	start.cpp	/^    MyDomain(int p) : NetworkDomain(p) {}$/;"	f	class:MyDomain
+MyDomain	start.cpp	/^class MyDomain: public NetworkDomain$/;"	c	file:
+NETWORK_H	network.h	13;"	d
+NetworkDomain	network.cpp	/^NetworkDomain::NetworkDomain(int id)$/;"	f	class:NetworkDomain
+NetworkDomain	network.h	/^class NetworkDomain$/;"	c
+NetworkLoop	network.cpp	/^NetworkLoop::NetworkLoop()$/;"	f	class:NetworkLoop
+NetworkLoop	network.h	/^class NetworkLoop$/;"	c
+NetworkTimer	network.cpp	/^NetworkTimer::NetworkTimer(int msecs)$/;"	f	class:NetworkTimer
+NetworkTimer	network.h	/^class NetworkTimer$/;"	c
+OneLevelStrategy	search-minimax.cpp	/^    OneLevelStrategy(): SearchStrategy("OneLevel") {}$/;"	f	class:OneLevelStrategy
+OneLevelStrategy	search-minimax.cpp	/^class OneLevelStrategy: public SearchStrategy$/;"	c	file:
+OneLevelStrategy	search-onelevel.cpp	/^    OneLevelStrategy(): SearchStrategy("OneLevel") {}$/;"	f	class:OneLevelStrategy
+OneLevelStrategy	search-onelevel.cpp	/^class OneLevelStrategy: public SearchStrategy$/;"	c	file:
+RealFields	board.h	/^         RealFields = 61, \/* number of visible fields *\/$/;"	e	enum:Board::__anon8
+RealFields	eval.h	/^	   RealFields = 61, \/* number of visible fields *\/$/;"	e	enum:Evaluator::__anon11
+Right	move.h	/^  enum { Right=1, RightDown, LeftDown, Left, LeftUp, RightUp };$/;"	e	enum:Move::__anon2
+RightDown	move.h	/^  enum { Right=1, RightDown, LeftDown, Left, LeftUp, RightUp };$/;"	e	enum:Move::__anon2
+RightUp	move.h	/^  enum { Right=1, RightDown, LeftDown, Left, LeftUp, RightUp };$/;"	e	enum:Move::__anon2
+SEARCH_H	search.h	9;"	d
+SEARCH_OBJS	Makefile	/^SEARCH_OBJS = $(LIB_OBJS) search-abid.o search-onelevel.o$/;"	m
+SearchCallbacks	search.h	/^    SearchCallbacks(int v = 0) { _verbose = v; }$/;"	f	class:SearchCallbacks
+SearchCallbacks	search.h	/^class SearchCallbacks$/;"	c
+SearchStrategy	search.cpp	/^SearchStrategy::SearchStrategy(char* n, int prio)$/;"	f	class:SearchStrategy
+SearchStrategy	search.h	/^class SearchStrategy$/;"	c
+Variation	move.h	/^  Variation() { clear(1); }$/;"	f	class:Variation
+Variation	move.h	/^class Variation$/;"	c
+_bestMove	search.h	/^    Move _bestMove;$/;"	m	class:SearchStrategy
+_board	eval.h	/^    Board* _board;$/;"	m	class:Evaluator
+_board	search.h	/^    Board* _board;$/;"	m	class:SearchStrategy
+_currentBestMove	search-abid.cpp	/^    Move _currentBestMove;$/;"	m	class:ABIDStrategy	file:
+_currentMaxDepth	search-abid.cpp	/^    int _currentMaxDepth;$/;"	m	class:ABIDStrategy	file:
+_ev	board.h	/^  Evaluator* _ev;$/;"	m	class:Board
+_ev	search.h	/^    Evaluator* _ev;$/;"	m	class:SearchStrategy
+_evalScheme	eval.h	/^    EvalScheme* _evalScheme;$/;"	m	class:Evaluator
+_inARowValue	eval.h	/^  int _inARowValue[MoveCounter::inARowCount];$/;"	m	class:EvalScheme
+_inPV	search-abid.cpp	/^    bool _inPV;$/;"	m	class:ABIDStrategy	file:
+_leaveStart	search.cpp	/^int _leaveStart[10], _nodeStart[10];$/;"	v
+_leavesVisited	search.h	/^    int _leavesVisited, _nodesVisited;$/;"	m	class:SearchCallbacks
+_left	network.h	/^    struct timeval _left;$/;"	m	class:NetworkTimer	typeref:struct:NetworkTimer::timeval
+_maxDepth	search.h	/^    int _maxDepth;$/;"	m	class:SearchStrategy
+_moveCount	board.h	/^  int _moveCount[Move::typeCount];$/;"	m	class:MoveCounter
+_moveNo	board.h	/^  int _moveNo;                   \/* move number in current game *\/$/;"	m	class:Board
+_moveValue	eval.h	/^  int _stoneValue[6], _moveValue[Move::none];$/;"	m	class:EvalScheme
+_msecs	network.h	/^    int _msecs;$/;"	m	class:NetworkTimer
+_msecsForSearch	search.h	/^    int _msecsPassed, _msecsForSearch;$/;"	m	class:SearchCallbacks
+_msecsPassed	search.h	/^    int _msecsPassed, _msecsForSearch;$/;"	m	class:SearchCallbacks
+_msecsToPlay	board.h	/^  int _msecsToPlay[3];            \/* time in seconds to play *\/$/;"	m	class:Board
+_name	search.h	/^    char* _name;$/;"	m	class:SearchStrategy
+_next	search.h	/^    SearchStrategy* _next;$/;"	m	class:SearchStrategy
+_nodeStart	search.cpp	/^int _leaveStart[10], _nodeStart[10];$/;"	v
+_nodesVisited	search.h	/^    int _leavesVisited, _nodesVisited;$/;"	m	class:SearchCallbacks
+_prio	search.h	/^    int _prio;$/;"	m	class:SearchStrategy
+_pv	search-abid.cpp	/^    Variation _pv;$/;"	m	class:ABIDStrategy	file:
+_ringDiff	eval.h	/^  int _ringValue[5], _ringDiff[5];$/;"	m	class:EvalScheme
+_ringValue	eval.h	/^  int _ringValue[5], _ringDiff[5];$/;"	m	class:EvalScheme
+_rowCount	board.h	/^  int _rowCount[inARowCount];$/;"	m	class:MoveCounter
+_sc	search.h	/^    SearchCallbacks* _sc;$/;"	m	class:SearchStrategy
+_ss	board.h	/^  SearchStrategy* _ss;$/;"	m	class:Board
+_stoneValue	eval.h	/^  int _stoneValue[6], _moveValue[Move::none];$/;"	m	class:EvalScheme
+_stopSearch	search.h	/^    bool _stopSearch;$/;"	m	class:SearchStrategy
+_verbose	board.h	/^  int _verbose;$/;"	m	class:Board
+_verbose	search.h	/^    int _verbose;$/;"	m	class:SearchCallbacks
+abidStrategy	search-abid.cpp	/^ABIDStrategy abidStrategy;$/;"	v
+actColor	board.h	/^  int actColor() const$/;"	f	class:Board
+actMaxDepth	move.h	/^  int actMaxDepth;$/;"	m	class:Variation
+actual	move.h	/^	int  actual[Move::typeCount];$/;"	m	class:MoveList
+actualType	move.h	/^	int  nextUnused, actualType;$/;"	m	class:MoveList
+addConnection	network.cpp	/^void NetworkDomain::addConnection(const char* host, int port)$/;"	f	class:NetworkDomain
+addr	network.cpp	/^char* Connection::addr()$/;"	f	class:Connection
+afterEval	search.cpp	/^bool SearchCallbacks::afterEval()$/;"	f	class:SearchCallbacks
+all	move.h	/^	enum { all , start1, start2, start3 };$/;"	e	enum:MoveList::__anon5
+alphabeta	search-abid.cpp	/^int ABIDStrategy::alphabeta(int depth, int alpha, int beta)$/;"	f	class:ABIDStrategy
+b	player.cpp	/^Board b;$/;"	v
+b	referee.cpp	/^static Board b;$/;"	v	file:
+b	start.cpp	/^static Board b;$/;"	v	file:
+bUpdateSpy	board.h	/^  bool show, bUpdateSpy;$/;"	m	class:Board
+begin	board.cpp	/^void Board::begin(int startColor)$/;"	f	class:Board
+bestMove	board.cpp	/^Move& Board::bestMove()$/;"	f	class:Board
+bestMove	search.cpp	/^Move& SearchStrategy::bestMove(Board* b)$/;"	f	class:SearchStrategy
+broadcast	network.cpp	/^void NetworkDomain::broadcast(const char* str)$/;"	f	class:NetworkDomain
+calcEvaluation	eval.cpp	/^int Evaluator::calcEvaluation(Board* b)$/;"	f	class:Evaluator
+chain	move.h	/^  Move* chain(int d)$/;"	f	class:Variation
+changeEval	player.cpp	/^bool changeEval = true;$/;"	v
+changeEvaluation	eval.cpp	/^void Evaluator::changeEvaluation()$/;"	f	class:Evaluator
+check	network.cpp	/^void NetworkDomain::check(fd_set* set)$/;"	f	class:NetworkDomain
+clear	board.cpp	/^void Board::clear()$/;"	f	class:Board
+clear	move.cpp	/^void MoveList::clear()$/;"	f	class:MoveList
+clear	move.cpp	/^void Variation::clear(int d)$/;"	f	class:Variation
+clone	search-abid.cpp	/^    SearchStrategy* clone() { return new ABIDStrategy(); }$/;"	f	class:ABIDStrategy
+clone	search-minimax.cpp	/^    SearchStrategy* clone() { return new OneLevelStrategy(); }$/;"	f	class:OneLevelStrategy
+clone	search-onelevel.cpp	/^    SearchStrategy* clone() { return new OneLevelStrategy(); }$/;"	f	class:OneLevelStrategy
+close	network.cpp	/^void NetworkDomain::close()$/;"	f	class:NetworkDomain
+color	board.h	/^  int color;                    \/* actual color *\/$/;"	m	class:Board
+color1	board.h	/^    color1, color2, color1bright, color2bright$/;"	e	enum:Board::__anon7
+color1	eval.h	/^	color1, color2, color1bright, color2bright$/;"	e	enum:Evaluator::__anon10
+color1Count	board.h	/^  int color1Count, color2Count;$/;"	m	class:Board
+color1bright	board.h	/^    color1, color2, color1bright, color2bright$/;"	e	enum:Board::__anon7
+color1bright	eval.h	/^	color1, color2, color1bright, color2bright$/;"	e	enum:Evaluator::__anon10
+color2	board.h	/^    color1, color2, color1bright, color2bright$/;"	e	enum:Board::__anon7
+color2	eval.h	/^	color1, color2, color1bright, color2bright$/;"	e	enum:Evaluator::__anon10
+color2Count	board.h	/^  int color1Count, color2Count;$/;"	m	class:Board
+color2bright	board.h	/^    color1, color2, color1bright, color2bright$/;"	e	enum:Board::__anon7
+color2bright	eval.h	/^	color1, color2, color1bright, color2bright$/;"	e	enum:Evaluator::__anon10
+connectionList	network.h	/^  Connection* connectionList;$/;"	m	class:NetworkDomain
+count	move.cpp	/^int MoveList::count(int maxType)$/;"	f	class:MoveList
+count	network.cpp	/^int NetworkDomain::count()$/;"	f	class:NetworkDomain
+countFrom	board.cpp	/^void Board::countFrom(int startField, int color,$/;"	f	class:Board
+create	search.cpp	/^SearchStrategy* SearchStrategy::create(char* n)$/;"	f	class:SearchStrategy
+create	search.cpp	/^SearchStrategy* SearchStrategy::create(int i)$/;"	f	class:SearchStrategy
+d1	referee.cpp	/^static MyDomain *d1 = 0, *d2 = 0;$/;"	v	file:
+d1MemberExists	referee.cpp	/^static bool d1MemberExists = false;$/;"	v	file:
+d2	referee.cpp	/^static MyDomain *d1 = 0, *d2 = 0;$/;"	v	file:
+d2MemberExists	referee.cpp	/^static bool d2MemberExists = false;$/;"	v	file:
+defaultInARowValue	eval.cpp	/^static int defaultInARowValue[MoveCounter::inARowCount]= { 2, 5, 4, 3 };$/;"	v	file:
+defaultMoveValue	eval.cpp	/^static int defaultMoveValue[Move::typeCount] = { 40,30,30, 15,14,13, $/;"	v	file:
+defaultPort	network.h	/^  enum { defaultPort = 23412 };$/;"	e	enum:NetworkDomain::__anon1
+defaultRingDiff	eval.cpp	/^static int defaultRingDiff[]  = {  0, 10, 10,  8, 5 };$/;"	v	file:
+defaultRingValue	eval.cpp	/^static int defaultRingValue[] = { 45, 35, 25, 10, 0 };$/;"	v	file:
+defaultStoneValue	eval.cpp	/^static int defaultStoneValue[]= { 0,-800,-1800,-3000,-4400,-6000 };$/;"	v	file:
+direction	board.cpp	/^int Board::direction[]= { -11,1,12,11,-1,-12,-11,1 };$/;"	m	class:Board	file:
+direction	board.h	/^  static int direction[8];$/;"	m	class:Board
+direction	move.h	/^  unsigned char direction;$/;"	m	class:Move
+domain	network.h	/^    NetworkDomain* domain;$/;"	m	class:Connection
+domainList	network.h	/^    NetworkDomain* domainList;$/;"	m	class:NetworkLoop
+empty	board.h	/^  enum { empty=0, $/;"	e	enum:Board::__anon9
+ev	player.cpp	/^Evaluator ev;$/;"	v
+evalCounter	search.cpp	/^static int evalCounter = 0;$/;"	v	file:
+evalScheme	eval.h	/^    EvalScheme* evalScheme() { return _evalScheme; }$/;"	f	class:Evaluator
+evaluate	search.cpp	/^int SearchStrategy::evaluate()$/;"	f	class:SearchStrategy
+exit	network.cpp	/^void NetworkLoop::exit(int v)$/;"	f	class:NetworkLoop
+exit_loop	network.h	/^    bool exit_loop;$/;"	m	class:NetworkLoop
+exit_value	network.h	/^    int exit_value;$/;"	m	class:NetworkLoop
+fd	network.h	/^  int fd, myID, myPort;$/;"	m	class:NetworkDomain
+field	board.h	/^  int field[AllFields];         \/* actual board *\/$/;"	m	class:Board
+field	eval.h	/^    int* field;$/;"	m	class:Evaluator
+field	move.h	/^  short field;$/;"	m	class:Move
+fieldArray	board.h	/^  int* fieldArray() { return field; }$/;"	f	class:Board
+fieldDiffOfDir	board.h	/^  static int fieldDiffOfDir(int d) { return direction[d]; }$/;"	f	class:Board
+fieldValue	eval.cpp	/^int Evaluator::fieldValue[61];$/;"	m	class:Evaluator	file:
+fieldValue	eval.h	/^    static int fieldValue[Board::RealFields];$/;"	m	class:Evaluator
+file	referee.cpp	/^static FILE* file = 0;$/;"	v	file:
+file	start.cpp	/^static FILE* file = 0;$/;"	v	file:
+finished	search.cpp	/^void SearchCallbacks::finished(Move& m)$/;"	f	class:SearchCallbacks
+finishedNode	search.cpp	/^void SearchCallbacks::finishedNode(int d, Move* chain)$/;"	f	class:SearchCallbacks
+finishedNode	search.cpp	/^void SearchStrategy::finishedNode(int d, Move* bestList)$/;"	f	class:SearchStrategy
+first	move.h	/^	int  first[Move::typeCount];$/;"	m	class:MoveList
+foundBestMove	search.cpp	/^void SearchCallbacks::foundBestMove(int d, const Move& m, int value)$/;"	f	class:SearchCallbacks
+foundBestMove	search.cpp	/^void SearchStrategy::foundBestMove(int d, const Move& m, int eval)$/;"	f	class:SearchStrategy
+free	board.h	/^    out = 10, free = 0,$/;"	e	enum:Board::__anon7
+free	eval.h	/^	out = 10, free = 0,$/;"	e	enum:Evaluator::__anon10
+generateFieldMoves	board.cpp	/^void Board::generateFieldMoves(int startField, MoveList& list)$/;"	f	class:Board
+generateMoves	board.cpp	/^void Board::generateMoves(MoveList& list)$/;"	f	class:Board
+generateMoves	search.cpp	/^void SearchStrategy::generateMoves(MoveList& list)$/;"	f	class:SearchStrategy
+getColor1Count	board.h	/^  int getColor1Count() 	  { return color1Count; }$/;"	f	class:Board
+getColor2Count	board.h	/^  int getColor2Count() 	  { return color2Count; }$/;"	f	class:Board
+getLength	move.h	/^	int getLength()$/;"	f	class:MoveList
+getNewConnection	network.cpp	/^Connection* NetworkDomain::getNewConnection(const char* h,$/;"	f	class:NetworkDomain
+getNext	move.cpp	/^bool MoveList::getNext(Move& m, int maxType)$/;"	f	class:MoveList
+getState	board.cpp	/^char* Board::getState()$/;"	f	class:Board
+gotConnection	network.cpp	/^void NetworkDomain::gotConnection()$/;"	f	class:NetworkDomain
+hasMove	move.h	/^  bool hasMove(int d)$/;"	f	class:Variation
+hasSameFields	board.cpp	/^bool Board::hasSameFields(Board* b)$/;"	f	class:Board
+host	network.h	/^    char host[100];$/;"	m	class:Connection
+host	player.cpp	/^char* host = 0;       \/* not used on default *\/$/;"	v
+host	referee.cpp	/^static char* host[2] = {0,0};       \/* not used per default *\/$/;"	v	file:
+host	start.cpp	/^static char* host = 0;       \/* not used on default *\/$/;"	v	file:
+inARow2	board.h	/^  enum InARowType { inARow2 = 0, inARow3, inARow4, inARow5, inARowCount };$/;"	e	enum:MoveCounter::InARowType
+inARow3	board.h	/^  enum InARowType { inARow2 = 0, inARow3, inARow4, inARow5, inARowCount };$/;"	e	enum:MoveCounter::InARowType
+inARow4	board.h	/^  enum InARowType { inARow2 = 0, inARow3, inARow4, inARow5, inARowCount };$/;"	e	enum:MoveCounter::InARowType
+inARow5	board.h	/^  enum InARowType { inARow2 = 0, inARow3, inARow4, inARow5, inARowCount };$/;"	e	enum:MoveCounter::InARowType
+inARowCount	board.h	/^  enum InARowType { inARow2 = 0, inARow3, inARow4, inARow5, inARowCount };$/;"	e	enum:MoveCounter::InARowType
+inARowValue	eval.h	/^  int inARowValue(int s)$/;"	f	class:EvalScheme
+incRow	board.h	/^  void incRow(int r) { _rowCount[r]++; }$/;"	f	class:MoveCounter
+incType	board.h	/^  void incType(int t) { _moveCount[t]++; }$/;"	f	class:MoveCounter
+init	board.cpp	/^void MoveCounter::init()$/;"	f	class:MoveCounter
+insert	move.cpp	/^void MoveList::insert(Move m)$/;"	f	class:MoveList
+insert	move.h	/^	void insert(short f, char d, Move::MoveType t)$/;"	f	class:MoveList
+install	network.cpp	/^bool NetworkLoop::install(NetworkDomain* d)$/;"	f	class:NetworkLoop
+install	network.cpp	/^bool NetworkLoop::install(NetworkTimer* t)$/;"	f	class:NetworkLoop
+invalid	board.h	/^	 invalid };$/;"	e	enum:Board::__anon9
+isConsistent	board.cpp	/^bool Board::isConsistent()$/;"	f	class:Board
+isElement	move.cpp	/^bool MoveList::isElement(Move &m, int startType, bool del)$/;"	f	class:MoveList
+isElement	move.cpp	/^bool MoveList::isElement(int f)$/;"	f	class:MoveList
+isListening	network.h	/^  bool isListening() { return (fd>=0); }$/;"	f	class:NetworkDomain
+isOutMove	move.h	/^  bool isOutMove() const { return type <= out1with2; }$/;"	f	class:Move
+isPushMove	move.h	/^  bool isPushMove() const { return type <= push1with2; }$/;"	f	class:Move
+isValid	board.h	/^  bool isValid() { return (color1Count>8 && color2Count>8); }$/;"	f	class:Board
+kevalsPerSec	search.cpp	/^static int kevalsPerSec = 30;$/;"	v	file:
+l	player.cpp	/^NetworkLoop l;$/;"	v
+l	referee.cpp	/^static NetworkLoop l;$/;"	v	file:
+l	start.cpp	/^static NetworkLoop l;$/;"	v	file:
+last	move.h	/^	int  last[Move::typeCount];$/;"	m	class:MoveList
+lastMove	board.h	/^  Move& lastMove()$/;"	f	class:Board
+left2	move.h	/^		  left2, right2, move2, move1, none };$/;"	e	enum:Move::MoveType
+left3	move.h	/^		  push1with3, push1with2, move3, left3, right3,$/;"	e	enum:Move::MoveType
+listeningFD	network.h	/^  int listeningFD() { return fd; }$/;"	f	class:NetworkDomain
+listeningPort	network.h	/^  int listeningPort() { return myPort; }$/;"	f	class:NetworkDomain
+loop	network.h	/^  NetworkLoop* loop;$/;"	m	class:NetworkDomain
+lport	player.cpp	/^int lport = 23412;$/;"	v
+lport	referee.cpp	/^static int lport[2] = {DEFAULT_DOMAIN_PORT, DEFAULT_DOMAIN_PORT + DEFAULT_DOMAIN_DIFF};$/;"	v	file:
+lport	start.cpp	/^static int lport = DEFAULT_DOMAIN_PORT;$/;"	v	file:
+main	player.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	referee.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	start.cpp	/^int main(int argc, char* argv[])$/;"	f
+maxDepth	move.h	/^  enum { maxDepth = 10 };$/;"	e	enum:Variation::__anon6
+maxDepth	player.cpp	/^int maxDepth = 0;$/;"	v
+maxEvaluation	search.cpp	/^int SearchStrategy::maxEvaluation()$/;"	f	class:SearchStrategy
+maxMoveType	move.h	/^	 maxMoveType = move1 };$/;"	e	enum:Move::__anon3
+maxMoves	player.cpp	/^int maxMoves = -1;$/;"	v
+maxOutType	move.h	/^	 maxOutType = out1with2,$/;"	e	enum:Move::__anon3
+maxPushType	move.h	/^	 maxPushType = push1with2,$/;"	e	enum:Move::__anon3
+maxValue	eval.h	/^    int maxValue() { return  15000; }$/;"	f	class:Evaluator
+max_readfd	network.h	/^    int max_readfd;$/;"	m	class:NetworkLoop
+minEvaluation	search.cpp	/^int SearchStrategy::minEvaluation()$/;"	f	class:SearchStrategy
+minLeft	network.cpp	/^void NetworkTimer::minLeft(struct timeval* tv)$/;"	f	class:NetworkTimer
+minValue	eval.h	/^    int minValue() { return -15000; }$/;"	f	class:Evaluator
+move	move.h	/^	Move move[MaxMoves];$/;"	m	class:MoveList
+move	move.h	/^  Move move[maxDepth][maxDepth];$/;"	m	class:Variation
+move1	move.h	/^		  left2, right2, move2, move1, none };$/;"	e	enum:Move::MoveType
+move2	move.h	/^		  left2, right2, move2, move1, none };$/;"	e	enum:Move::MoveType
+move3	move.h	/^		  push1with3, push1with2, move3, left3, right3,$/;"	e	enum:Move::MoveType
+moveCount	board.h	/^  int  moveCount(int t) { return _moveCount[t]; }$/;"	f	class:MoveCounter
+moveNo	board.h	/^  int moveNo() { return _moveNo; }$/;"	f	class:Board
+moveSum	board.cpp	/^int MoveCounter::moveSum()$/;"	f	class:MoveCounter
+moveToReach	board.cpp	/^Move Board::moveToReach(Board* b, bool fuzzy)$/;"	f	class:Board
+moveValue	eval.h	/^  int moveValue(int t)$/;"	f	class:EvalScheme
+movesStored	board.cpp	/^int Board::movesStored()$/;"	f	class:Board
+msecs	network.h	/^    int msecs() { return _msecs; }$/;"	f	class:NetworkTimer
+msecsPassed	search.h	/^    int msecsPassed() { return _msecsPassed; }$/;"	f	class:SearchCallbacks
+msecsToPlay	board.h	/^  int msecsToPlay(int c) { return _msecsToPlay[c]; }$/;"	f	class:Board
+msecsToPlay	referee.cpp	/^static int msecsToPlay[3] = {0,0,0};$/;"	v	file:
+myColor	player.cpp	/^int myColor = Board::color1;$/;"	v
+myID	network.h	/^  int fd, myID, myPort;$/;"	m	class:NetworkDomain
+myPort	network.h	/^  int fd, myID, myPort;$/;"	m	class:NetworkDomain
+mySin	network.h	/^  struct sockaddr_in mySin;$/;"	m	class:NetworkDomain	typeref:struct:NetworkDomain::sockaddr_in
+name	move.cpp	/^char* Move::name() const$/;"	f	class:Move
+name	search.h	/^    char* name() { return _name; }$/;"	f	class:SearchStrategy
+nameOfDir	move.cpp	/^static const char* nameOfDir(int dir)$/;"	f	file:
+nameOfPos	move.cpp	/^static char* nameOfPos(int p)$/;"	f	file:
+newConnection	network.cpp	/^void NetworkDomain::newConnection(Connection* c)$/;"	f	class:NetworkDomain
+newConnection	referee.cpp	/^void MyDomain::newConnection(Connection* c)$/;"	f	class:MyDomain
+newConnection	start.cpp	/^void MyDomain::newConnection(Connection* c)$/;"	f	class:MyDomain
+next	move.h	/^	int  next[MaxMoves];$/;"	m	class:MoveList
+next	network.h	/^    Connection* next;$/;"	m	class:Connection
+next	network.h	/^    NetworkTimer* next;$/;"	m	class:NetworkTimer
+next	network.h	/^  NetworkDomain* next;$/;"	m	class:NetworkDomain
+nextMove	board.cpp	/^Move& Board::nextMove()$/;"	f	class:Board
+nextMove	search-abid.cpp	/^    Move& nextMove() { return _pv[1]; }$/;"	f	class:ABIDStrategy
+nextMove	search.cpp	/^Move& SearchStrategy::nextMove()$/;"	f	class:SearchStrategy
+nextUnused	move.h	/^	int  nextUnused, actualType;$/;"	m	class:MoveList
+none	move.h	/^		  left2, right2, move2, move1, none };$/;"	e	enum:Move::MoveType
+oneLevelStrategy	search-minimax.cpp	/^OneLevelStrategy oneLevelStrategy;$/;"	v
+oneLevelStrategy	search-onelevel.cpp	/^OneLevelStrategy oneLevelStrategy;$/;"	v
+onlyReachable	start.cpp	/^static bool onlyReachable = true;$/;"	v	file:
+operator []	board.h	/^inline int Board::operator[](int no) const$/;"	f	class:Board
+operator []	move.h	/^  Move& operator[](int i)$/;"	f	class:Variation
+order	board.cpp	/^int Board::order[]={$/;"	m	class:Board	file:
+order	board.h	/^  static int order[RealFields];$/;"	m	class:Board
+out	board.h	/^    out = 10, free = 0,$/;"	e	enum:Board::__anon7
+out	eval.h	/^	out = 10, free = 0,$/;"	e	enum:Evaluator::__anon10
+out1with2	move.h	/^  enum MoveType { out2 = 0, out1with3, out1with2, push2,$/;"	e	enum:Move::MoveType
+out1with3	move.h	/^  enum MoveType { out2 = 0, out1with3, out1with2, push2,$/;"	e	enum:Move::MoveType
+out2	move.h	/^  enum MoveType { out2 = 0, out1with3, out1with2, push2,$/;"	e	enum:Move::MoveType
+parseArgs	player.cpp	/^void parseArgs(int argc, char* argv[])$/;"	f
+parseArgs	referee.cpp	/^static void parseArgs(int argc, char* argv[])$/;"	f	file:
+parseArgs	start.cpp	/^static void parseArgs(int argc, char* argv[])$/;"	f	file:
+pending	network.cpp	/^bool NetworkLoop::pending()$/;"	f	class:NetworkLoop
+playMove	board.cpp	/^void Board::playMove(const Move& m, int msecs)$/;"	f	class:Board
+playMove	search.cpp	/^void SearchStrategy::playMove(const Move& m)$/;"	f	class:SearchStrategy
+port	network.h	/^    int port;$/;"	m	class:Connection
+prepareConnection	network.cpp	/^Connection* NetworkDomain::prepareConnection(const char* host, int port)$/;"	f	class:NetworkDomain
+print	board.cpp	/^void Board::print()$/;"	f	class:Board
+print	move.cpp	/^void Move::print() const$/;"	f	class:Move
+printHelp	player.cpp	/^void printHelp(char* prg, bool printHeader)$/;"	f
+printHelp	referee.cpp	/^static void printHelp(char* prg, bool printHeader)$/;"	f	file:
+printHelp	start.cpp	/^static void printHelp(char* prg, bool printHeader)$/;"	f	file:
+processPending	network.cpp	/^void NetworkLoop::processPending()$/;"	f	class:NetworkLoop
+push1with2	move.h	/^		  push1with3, push1with2, move3, left3, right3,$/;"	e	enum:Move::MoveType
+push1with3	move.h	/^		  push1with3, push1with2, move3, left3, right3,$/;"	e	enum:Move::MoveType
+push2	move.h	/^  enum MoveType { out2 = 0, out1with3, out1with2, push2,$/;"	e	enum:Move::MoveType
+randomMove	board.cpp	/^Move Board::randomMove()$/;"	f	class:Board
+reachable	network.h	/^    bool reachable;$/;"	m	class:Connection
+read	eval.cpp	/^void EvalScheme::read(char* file)$/;"	f	class:EvalScheme
+readfds	network.h	/^    fd_set readfds;$/;"	m	class:NetworkLoop
+received	network.cpp	/^void NetworkDomain::received(char* str)$/;"	f	class:NetworkDomain
+received	player.cpp	/^void MyDomain::received(char* str)$/;"	f	class:MyDomain
+received	referee.cpp	/^void MyDomain::received(char* str)$/;"	f	class:MyDomain
+received	start.cpp	/^void MyDomain::received(char* str)$/;"	f	class:MyDomain
+registerCallbacks	search.h	/^    void registerCallbacks(SearchCallbacks* sc) { _sc = sc; }$/;"	f	class:SearchStrategy
+remove	network.cpp	/^void NetworkLoop::remove(NetworkDomain* domain)$/;"	f	class:NetworkLoop
+reset	network.cpp	/^void NetworkTimer::reset()$/;"	f	class:NetworkTimer
+right2	move.h	/^		  left2, right2, move2, move1, none };$/;"	e	enum:Move::MoveType
+right3	move.h	/^		  push1with3, push1with2, move3, left3, right3,$/;"	e	enum:Move::MoveType
+ringDiff	eval.h	/^  int ringDiff(int r) { return (r>0 && r<5) ? _ringDiff[r] : 0; }$/;"	f	class:EvalScheme
+ringValue	eval.h	/^  int ringValue(int r) { return (r>=0 && r<5) ? _ringValue[r] : 0; }$/;"	f	class:EvalScheme
+rowCount	board.h	/^  int  rowCount(int r) { return _rowCount[r]; }$/;"	f	class:MoveCounter
+rport	player.cpp	/^int rport = 23412;$/;"	v
+rport	referee.cpp	/^static int rport[2] = {DEFAULT_DOMAIN_PORT, DEFAULT_DOMAIN_PORT + DEFAULT_DOMAIN_DIFF};$/;"	v	file:
+rport	start.cpp	/^static int rport = DEFAULT_DOMAIN_PORT;$/;"	v	file:
+run	network.cpp	/^int NetworkLoop::run()$/;"	f	class:NetworkLoop
+save	eval.cpp	/^void EvalScheme::save(char* file)$/;"	f	class:EvalScheme
+searchBestMove	search-abid.cpp	/^void ABIDStrategy::searchBestMove()$/;"	f	class:ABIDStrategy
+searchBestMove	search-minimax.cpp	/^void OneLevelStrategy::searchBestMove()$/;"	f	class:OneLevelStrategy
+searchBestMove	search-onelevel.cpp	/^void OneLevelStrategy::searchBestMove()$/;"	f	class:OneLevelStrategy
+searchStrategies	search.cpp	/^static SearchStrategy* searchStrategies = 0;$/;"	v	file:
+secsToPlay	referee.cpp	/^static int secsToPlay = 0;$/;"	v	file:
+secsToPlay	start.cpp	/^static int secsToPlay = -1;$/;"	v	file:
+seed	board.h	/^  int seed;$/;"	m	class:Board
+sendBoard	player.cpp	/^void MyDomain::sendBoard()$/;"	f	class:MyDomain
+sendBoard	referee.cpp	/^void MyDomain::sendBoard()$/;"	f	class:MyDomain
+sendBoard	start.cpp	/^void MyDomain::sendBoard()$/;"	f	class:MyDomain
+sendString	network.cpp	/^bool Connection::sendString(const char* str, int len)$/;"	f	class:Connection
+set	network.cpp	/^void NetworkTimer::set(struct timeval* tv)$/;"	f	class:NetworkTimer
+setActColor	board.h	/^  void setActColor(int c) { color=c; }$/;"	f	class:Board
+setBoard	eval.cpp	/^void Evaluator::setBoard(Board* b)$/;"	f	class:Evaluator
+setColor1Count	board.h	/^  void setColor1Count(int c) { color1Count = c; }$/;"	f	class:Board
+setColor2Count	board.h	/^  void setColor2Count(int c) { color2Count = c; }$/;"	f	class:Board
+setDefaults	eval.cpp	/^void EvalScheme::setDefaults()$/;"	f	class:EvalScheme
+setDepth	board.cpp	/^void Board::setDepth(int d)$/;"	f	class:Board
+setEvalScheme	eval.cpp	/^void Evaluator::setEvalScheme(EvalScheme* scheme)$/;"	f	class:Evaluator
+setEvaluator	board.h	/^  void setEvaluator(Evaluator* ev) { _ev = ev; }$/;"	f	class:Board
+setEvaluator	search.h	/^    void setEvaluator(Evaluator* e) { _ev = e; }$/;"	f	class:SearchStrategy
+setField	board.h	/^  void setField(int i, int v) { field[i] = v; }$/;"	f	class:Board
+setFieldValues	eval.cpp	/^void Evaluator::setFieldValues()$/;"	f	class:Evaluator
+setHost	network.cpp	/^void Connection::setHost(const char* h)$/;"	f	class:Connection
+setInARowValue	eval.cpp	/^void EvalScheme::setInARowValue(int stones, int value)$/;"	f	class:EvalScheme
+setMSecsToPlay	board.h	/^  void setMSecsToPlay(int c, int s) { _msecsToPlay[c] = s; }$/;"	f	class:Board
+setMaxDepth	move.h	/^  void setMaxDepth(int d)$/;"	f	class:Variation
+setMaxDepth	search.h	/^    void setMaxDepth(int d) { _maxDepth = d; }$/;"	f	class:SearchStrategy
+setMoveNo	board.h	/^  void setMoveNo(int n) { _moveNo = n; }$/;"	f	class:Board
+setMoveValue	eval.cpp	/^void EvalScheme::setMoveValue(int type, int value)$/;"	f	class:EvalScheme
+setRingDiff	eval.cpp	/^void EvalScheme::setRingDiff(int ring, int value)$/;"	f	class:EvalScheme
+setRingValue	eval.cpp	/^void EvalScheme::setRingValue(int ring, int value)$/;"	f	class:EvalScheme
+setSearchStrategy	board.cpp	/^void Board::setSearchStrategy(SearchStrategy* ss)$/;"	f	class:Board
+setSpyLevel	board.cpp	/^void Board::setSpyLevel(int level)$/;"	f	class:Board
+setState	board.cpp	/^bool Board::setState(char* s)$/;"	f	class:Board
+setStoneValue	eval.cpp	/^void EvalScheme::setStoneValue(int stoneDiff, int value)$/;"	f	class:EvalScheme
+setVerbose	board.h	/^  void setVerbose(int v) { _verbose = v; }$/;"	f	class:Board
+show	board.h	/^  bool show, bUpdateSpy;$/;"	m	class:Board
+sin	network.h	/^    struct sockaddr_in sin;$/;"	m	class:Connection	typeref:struct:Connection::sockaddr_in
+spyDepth	board.h	/^  int spyLevel, spyDepth;$/;"	m	class:Board
+spyLevel	board.h	/^  int spyLevel, spyDepth;$/;"	m	class:Board
+start	network.cpp	/^bool Connection::start()$/;"	f	class:Connection
+start	search.cpp	/^void SearchCallbacks::start(int msecsForSearch)$/;"	f	class:SearchCallbacks
+start	start.cpp	/^static bool start = true;$/;"	v	file:
+start1	move.h	/^	enum { all , start1, start2, start3 };$/;"	e	enum:MoveList::__anon5
+start2	move.h	/^	enum { all , start1, start2, start3 };$/;"	e	enum:MoveList::__anon5
+start3	move.h	/^	enum { all , start1, start2, start3 };$/;"	e	enum:MoveList::__anon5
+startBoard	board.cpp	/^int Board::startBoard[]={$/;"	m	class:Board	file:
+startBoard	board.h	/^  static int startBoard[AllFields];$/;"	m	class:Board
+startListening	network.cpp	/^int NetworkDomain::startListening(NetworkLoop* l)$/;"	f	class:NetworkDomain
+startedNode	search.cpp	/^void SearchCallbacks::startedNode(int d, char* s)$/;"	f	class:SearchCallbacks
+stateDescription	board.cpp	/^char* Board::stateDescription(int s)$/;"	f	class:Board
+stoneValue	eval.h	/^  int stoneValue(int s) { return (s>0 && s<6) ? _stoneValue[s] : 0; }$/;"	f	class:EvalScheme
+stopSearch	board.cpp	/^void Board::stopSearch()$/;"	f	class:Board
+stopSearch	search.h	/^    void stopSearch() { _stopSearch = true; }$/;"	f	class:SearchStrategy
+storedFirst	board.h	/^  int storedFirst, storedLast;  \/* stored in ring puffer manner *\/$/;"	m	class:Board
+storedLast	board.h	/^  int storedFirst, storedLast;  \/* stored in ring puffer manner *\/$/;"	m	class:Board
+storedMove	board.h	/^  Move storedMove[MvsStored];   \/* stored moves *\/$/;"	m	class:Board
+strategies	search.cpp	/^char** SearchStrategy::strategies()$/;"	f	class:SearchStrategy
+strategyNo	player.cpp	/^int strategyNo = 0;$/;"	v
+subLeft	network.cpp	/^bool NetworkTimer::subLeft(struct timeval* tv)$/;"	f	class:NetworkTimer
+subTimeval	network.cpp	/^void subTimeval(struct timeval* tv1, struct timeval* tv2)$/;"	f
+substart	search.cpp	/^void SearchCallbacks::substart(char* s)$/;"	f	class:SearchCallbacks
+t1	referee.cpp	/^static struct timeval t1;$/;"	v	typeref:struct:timeval	file:
+t1	search.cpp	/^static struct timeval t1, t2;$/;"	v	typeref:struct:timeval	file:
+t2	search.cpp	/^static struct timeval t1, t2;$/;"	v	typeref:struct:	file:
+takeBack	board.cpp	/^bool Board::takeBack()$/;"	f	class:Board
+takeBack	search.cpp	/^bool SearchStrategy::takeBack()$/;"	f	class:SearchStrategy
+timeout	network.cpp	/^void NetworkTimer::timeout(NetworkLoop*)$/;"	f	class:NetworkTimer
+timeout1	board.h	/^	 timeout1, \/\/ time out for color1 -> win for color2$/;"	e	enum:Board::__anon9
+timeout2	board.h	/^	 timeout2, \/\/ time out for color2 -> win for color1$/;"	e	enum:Board::__anon9
+timerList	network.h	/^    NetworkTimer* timerList;$/;"	m	class:NetworkLoop
+type	move.h	/^  MoveType type;$/;"	m	class:Move
+typeCount	move.h	/^  enum { typeCount = none,$/;"	e	enum:Move::__anon3
+typeName	move.cpp	/^char* Move::typeName() const$/;"	f	class:Move
+update	move.cpp	/^void Variation::update(int d, Move& m)$/;"	f	class:Variation
+updateSpy	board.h	/^  void updateSpy(bool b) { bUpdateSpy = b; }$/;"	f	class:Board
+valid1	board.h	/^	 valid1,   \/\/ valid state with color1 to draw$/;"	e	enum:Board::__anon9
+valid2	board.h	/^	 valid2,   \/\/ valid state with color2 to draw$/;"	e	enum:Board::__anon9
+validState	board.cpp	/^int Board::validState()$/;"	f	class:Board
+verbose	network.cpp	/^int verbose = 0;$/;"	v
+verbose	search.h	/^    int verbose() { return _verbose; }$/;"	f	class:SearchCallbacks
+win1	board.h	/^	 win1,     \/\/ color1 won$/;"	e	enum:Board::__anon9
+win2	board.h	/^	 win2,     \/\/ color2 won$/;"	e	enum:Board::__anon9
+~Board	board.h	/^  ~Board() {};$/;"	f	class:Board
+~Connection	network.cpp	/^Connection::~Connection()$/;"	f	class:Connection
+~EvalScheme	eval.h	/^  ~EvalScheme() {}$/;"	f	class:EvalScheme
+~NetworkDomain	network.cpp	/^NetworkDomain::~NetworkDomain()$/;"	f	class:NetworkDomain
+~NetworkTimer	network.h	/^    virtual ~NetworkTimer() {}$/;"	f	class:NetworkTimer
+~SearchCallbacks	search.h	/^    virtual ~SearchCallbacks() {}$/;"	f	class:SearchCallbacks
+~SearchStrategy	search.h	/^    virtual ~SearchStrategy() {};$/;"	f	class:SearchStrategy
