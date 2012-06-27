@@ -45,7 +45,7 @@ static int msecsToPlay[3] = {0,0,0};
 /* to set verbosity of NetworkLoop implementation */
 extern int verbose;
 
-#define DEFAULT_DOMAIN_PORT 23412
+#define DEFAULT_DOMAIN_PORT 13375 
 #define DEFAULT_DOMAIN_DIFF 50
 
 /* remote channel */

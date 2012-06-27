@@ -21,6 +21,12 @@
 #include "eval.h"
 #include "network.h"
 
+#define pretty_print(name, val) printf("%s = %d: %s: %s: %d\n", name, val,  __FILE__,__FUNCTION__,__LINE__);
+
+
+int thread_rank;
+int num_threads;
+
 
 /* Global, static vars */
 NetworkLoop l;
@@ -47,7 +53,7 @@ char* host = 0;       /* not used on default */
 int rport = 23412;
 
 /* local channel */
-int lport = 23412;
+int lport = 13375;
 
 /* change evaluation after move? */
 bool changeEval = true;
@@ -83,6 +89,11 @@ void MyDomain::sendBoard()
 
 void MyDomain::received(char* str)
 {
+	for(int i=1;i<num_threads;i++)
+		MPI_Send (str, 1024, MPI_CHAR, i, 10,
+				MPI_COMM_WORLD);
+
+
     if (strncmp(str, "quit", 4)==0) {
 	l.exit();
 	return;
@@ -265,16 +276,13 @@ void parseArgs(int argc, char* argv[])
 
 	int strength = atoi(argv[arg]);
 	if (strength == 0) {
-	    printf("ERROR - Unknown option %s\n", argv[arg]);
-	    printHelp(argv[0], false);
+		printf("ERROR - Unknown option %s\n", argv[arg]);
+		printHelp(argv[0], false);
 	}
 
 	maxDepth = strength;
     }
 }
-
-int thread_rank;
-int num_threads;
 
 int main(int argc, char* argv[])
 {
@@ -284,9 +292,15 @@ int main(int argc, char* argv[])
 	MPI_Comm_size(MPI_COMM_WORLD, &num_threads);
 	MPI_Comm_rank(MPI_COMM_WORLD, &thread_rank);
 
-	if(thread_rank == 0)
-		parseArgs(argc, argv);
-
+	parseArgs(argc, argv);
+#if 0
+        if(thread_rank < 4)
+                myColor = Board::color1;
+        else {
+                myColor = Board::color2;
+                thread_rank = thread_rank - 4;
+        }
+#endif
 	SearchStrategy* ss = SearchStrategy::create(strategyNo);
 	if (verbose)
 		printf("Using strategy '%s' ...\n", ss->name());
@@ -296,12 +310,115 @@ int main(int argc, char* argv[])
 	ss->setEvaluator(&ev);
 	ss->registerCallbacks(new SearchCallbacks(verbose));
 
-	MyDomain d(lport);
-	if (host) d.addConnection(host, rport);
+	if(thread_rank == 0) {
 
-	l.install(&d);
-	l.run();
+		MyDomain d(lport);
+		if (host) d.addConnection(host, rport);
 
+		l.install(&d);
+		l.run();
+	}
+	else
+	{
+		bool exit_loop = false;
+		while(!exit_loop) 
+		{
+
+			char state_str[1024];
+			MPI_Status mpi_st;
+			pretty_print("thread_rank", thread_rank);
+			MPI_Recv (state_str, 1024, MPI_CHAR, 0, 10, MPI_COMM_WORLD, &mpi_st);
+
+			pretty_print("thread_rank", thread_rank);
+
+			if (strncmp(state_str, "quit", 4)==0) {
+				l.exit();
+				return 0;
+			}
+
+			if (strncmp(state_str, "pos ", 4)!=0) return 0;
+
+			b.setState(state_str+4);
+			if (verbose) {
+				printf("\n\n==========================================\n");
+				printf(state_str+4);
+			}
+
+			int state = b.validState();
+			if ((state == Board::empty))
+				continue;
+			if ((state != Board::valid1) &&
+					(state != Board::valid2)) {
+				printf("%s\n", Board::stateDescription(state));
+				switch(state) {
+					case Board::timeout1:
+					case Board::timeout2:
+					case Board::win1:
+					case Board::win2:
+//						l.exit();
+						exit_loop = true;
+					default:
+						break;
+				}
+				return 0;
+			}
+
+			if (b.actColor() & myColor) {
+				struct timeval t1, t2;
+
+				gettimeofday(&t1,0);
+				Move m = b.bestMove();
+				gettimeofday(&t2,0);
+
+				int msecsPassed =
+					(1000* t2.tv_sec + t2.tv_usec / 1000) -
+					(1000* t1.tv_sec + t1.tv_usec / 1000);
+
+				printf("%s ", (myColor == Board::color1) ? "O":"X");
+				if (m.type == Move::none) {
+					printf(" can not draw any move ?! Sorry.\n");
+					return 0;
+				}
+				printf("draws '%s' (after %d.%03d secs)...\n",
+						m.name(), msecsPassed/1000, msecsPassed%1000);
+
+				b.playMove(m, msecsPassed);
+				//			sendBoard();
+
+				if (changeEval)
+					ev.changeEvaluation();
+
+				/* stop player at win position */
+				int state = b.validState();
+				if ((state != Board::valid1) &&
+						(state != Board::valid2)) {
+					printf("%s\n", Board::stateDescription(state));
+					switch(state) {
+						case Board::timeout1:
+						case Board::timeout2:
+						case Board::win1:
+						case Board::win2:
+//							l.exit();
+							exit_loop = true;
+						default:
+							break;
+					}
+				}
+
+				maxMoves--;
+				if (maxMoves == 0) {
+					printf("Terminating because given number of moves drawn.\n");
+//					broadcast("quit\n");
+//					l.exit();
+					exit_loop = true;
+				}
+			}
+	
+		pretty_print("*********** Exit_loop", exit_loop);
+		
+		}
+
+	}
 	MPI_Finalize();
 
 }

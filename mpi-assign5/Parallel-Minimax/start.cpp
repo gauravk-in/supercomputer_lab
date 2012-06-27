@@ -29,7 +29,7 @@ static int secsToPlay = -1;
 /* to set verbosity of NetworkLoop implementation */
 extern int verbose;
 
-#define DEFAULT_DOMAIN_PORT 23412
+#define DEFAULT_DOMAIN_PORT 13375
 
 /* remote channel */
 static char* host = 0;       /* not used on default */
