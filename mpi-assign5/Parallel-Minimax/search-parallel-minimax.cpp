@@ -41,7 +41,7 @@ class MinimaxStrategy: public SearchStrategy
 {
 	public:
 		// Defines the name of the strategy
-		MinimaxStrategy(): SearchStrategy("MINIMAX") {}
+		MinimaxStrategy(): SearchStrategy("PARALLEL-MINIMAX") {}
 
 		// Factory method: just return a new instance of this class
 		SearchStrategy* clone() { return new MinimaxStrategy(); }

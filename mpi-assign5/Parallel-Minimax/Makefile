@@ -24,7 +24,7 @@ LDFLAGS=
 
 LIB_OBJS = move.o board.o network.o search.o eval.o
 #SEARCH_OBJS = $(LIB_OBJS) search-abid.o search-onelevel.o search-minimax.o search-parallel-minimax.o
-SEARCH_OBJS = $(LIB_OBJS) search-parallel-minimax.o
+SEARCH_OBJS = $(LIB_OBJS) search-parallel-minimax.o search-parallel-abid.cpp
 
 all: player start referee
 
