@@ -48,7 +48,7 @@ void SearchCallbacks::substart(char* s)
 }
 
 int i=0;
-unsigned int avg_kleavesPerSec;
+unsigned int avg_kleavesPerSec = 0;
 
 void SearchCallbacks::finished(Move& m)
 {
@@ -69,10 +69,10 @@ void SearchCallbacks::finished(Move& m)
 	   _leavesVisited, _leavesVisited /_msecsPassed);
     printf("  Nodes visited: %d (%d leaves per node)\n",
 	   _nodesVisited, _leavesVisited/_nodesVisited );
-    
-	avg_kleavesPerSec = (i*avg_kleavesPerSec + _leavesVisited/_msecsPassed)/(i+1);
-	i++;
-
+   
+        avg_kleavesPerSec = (i*avg_kleavesPerSec + _leavesVisited/_msecsPassed)/(i+1);
+        i++;
+ 
     int eps = _leavesVisited /_msecsPassed;
     if (eps>kevalsPerSec) kevalsPerSec = eps;
 }

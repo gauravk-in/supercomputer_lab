@@ -158,7 +158,6 @@ int ABIDStrategy::alphabeta(int depth, int alpha, int beta)
 
 	while (1) {
 
-		pretty_print("movecounter", movecounter);
 		movecounter++;
 		// get next move
 		if (m.type == Move::none) {
@@ -167,7 +166,7 @@ int ABIDStrategy::alphabeta(int depth, int alpha, int beta)
 			if (!depthPhase)
 				if (!list.getNext(m, Move::none)) break;
 		}
-		if((thread_rank == movecounter% num_threads) || (depth > 0))// we could start with a non-depth move from principal variation
+		if((thread_rank == movecounter% num_threads) || (depth>0))// we could start with a non-depth move from principal variation
 		{
 			doDepthSearch = depthPhase && (m.type <= maxType);
 
@@ -259,11 +258,6 @@ int ABIDStrategy::alphabeta(int depth, int alpha, int beta)
 				MPI_Send(&_pv, sizeof(Variation), MPI_BYTE, i+1 ,10, MPI_COMM_WORLD);
 				MPI_Send(&currentValue, 1, MPI_INT, i+1 ,10, MPI_COMM_WORLD);
 			}
-			pretty_print("thread_rank", thread_rank);
-
-			free(PVs);
-			free(moves);
-			free(eval_results);
 		}
 		else
 		{
@@ -272,9 +266,14 @@ int ABIDStrategy::alphabeta(int depth, int alpha, int beta)
 			MPI_Send(&_pv, sizeof(Variation), MPI_BYTE, 0 ,10, MPI_COMM_WORLD);
 			MPI_Send(&currentValue, 1, MPI_INT, 0 ,10, MPI_COMM_WORLD);
 			MPI_Recv(&_currentBestMove, sizeof(Move), MPI_BYTE, 0 ,10, MPI_COMM_WORLD, &status);
+			pretty_print("thread_rank", thread_rank);
+			printf("currentBestMove = %s\n",_currentBestMove.name());
 			MPI_Recv(&_pv, sizeof(Variation), MPI_BYTE, 0 ,10, MPI_COMM_WORLD, &status);
 			MPI_Recv(&currentValue, 1, MPI_INT, 0 ,10, MPI_COMM_WORLD, &status);
+
 		}	
+	
+		foundBestMove(0,_currentBestMove,currentValue);
 	}
 
 	if(!flag)

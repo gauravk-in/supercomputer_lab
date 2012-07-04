@@ -117,7 +117,7 @@ int MinimaxStrategy::minimax()
 
 		if(current_depth == 0)
 		{	
-			for(i=0;i<num_threads;i++)
+			for(i=1;i<num_threads;i++)
 				list.getNext(m);
 		}
 	}

@@ -30,7 +30,7 @@ Evaluator ev;
 int myColor = Board::color1;
 
 /* Which search strategy to use? */
-int strategyNo = 2;
+int strategyNo = 0;
 
 /* Max search depth */
 int maxDepth = 0;
@@ -272,6 +272,8 @@ void parseArgs(int argc, char* argv[])
     }
 }
 
+extern int avg_kleavesPerSec;
+
 int main(int argc, char* argv[])
 {
     parseArgs(argc, argv);
@@ -290,5 +292,6 @@ int main(int argc, char* argv[])
 
     l.install(&d);
     l.run();
+	printf("Average leaves visited per sec  = %d k/s\n", avg_kleavesPerSec);
 
 }

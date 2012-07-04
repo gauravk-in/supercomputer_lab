@@ -6,6 +6,8 @@
  * (c) 2006, Josef Weidendorfer
  */
 #include <stdio.h>
+#include <stdlib.h>
+#include <mpi.h>
 #include "search.h"
 #include "board.h"
 #include "eval.h"
@@ -16,6 +18,9 @@
 #define unlikely(x)     __builtin_expect((x),0)
 
 extern int maxDepth;
+
+extern int thread_rank;
+extern int num_threads;
 
 /**
  * To create your own search strategy:
@@ -36,7 +41,7 @@ class MinimaxStrategy: public SearchStrategy
 {
 	public:
 		// Defines the name of the strategy
-		MinimaxStrategy(): SearchStrategy("MINIMAX") {}
+		MinimaxStrategy(): SearchStrategy("PARALLEL-MINIMAX") {}
 
 		// Factory method: just return a new instance of this class
 		SearchStrategy* clone() { return new MinimaxStrategy(); }
@@ -51,32 +56,37 @@ class MinimaxStrategy: public SearchStrategy
 };
 
 int current_depth=0;
-#define MAX_DEPTH maxDepth
+#define MAX_DEPTH maxDepth 
 
 int MinimaxStrategy::minimax()
 {
 	Move m;
+	Move bestestMove; //;-p This is the cumulative best move among all threads.
 	MoveList list;
-//	int maxEval, minEval;
 	int bestEval;
 	int eval;	
 	int sign;
+	int move_counter=0;
+	int i=0;
 
 	if(current_depth == MAX_DEPTH)
 		return evaluate();
 
 	bestEval = -17000;
-//	maxEval = -17000;
-//	minEval = 17000;
 
 	generateMoves(list);
-	
+
 	if(evaluate() == 16000)
 	{
 		if(current_depth == 0)
 			finishedNode(0,0);
-		pretty_print("current_depth", current_depth);
 		return ((current_depth % 2) ==0) ? -16000 : 16000;
+	}
+
+	if(current_depth == 0)
+	{
+		for(i=0;i<thread_rank;i++)
+			list.getNext(m);
 	}
 
 	if((MAX_DEPTH-current_depth)%2 == 1)
@@ -99,65 +109,89 @@ int MinimaxStrategy::minimax()
 		{
 			bestEval = sign*eval;
 			if(unlikely(current_depth == 0)) {
-				pretty_print("Eval", bestEval);
 				foundBestMove(0, m, eval);
 			}
 		}
 
-#if 0
-		if((MAX_DEPTH - current_depth +1) % 2 == 0)
-		{
-			if(eval > maxEval)
-			{
-				maxEval=eval;
-				if(current_depth == 0) {
-					pretty_print("Eval", eval);
-					foundBestMove(0, m, eval);
-				}
-			}
+		if(current_depth == 0)
+		{	
+			for(i=1;i<num_threads;i++)
+				list.getNext(m);
 		}
-		else
-		{
-			if(eval < minEval)
-			{
-				minEval=eval;                   
-				if(current_depth == 0) {
-					pretty_print("Eval2", eval);
-					foundBestMove(0, m, eval);
-				}
-
-			}
-		}
-#endif
 	}
 	bestEval = sign*bestEval;
 
-	if(current_depth == 0)
-		finishedNode(0,0);
-#if 0
-	if((MAX_DEPTH - current_depth +1) % 2 == 0)
-		return maxEval;
-	else
-                return minEval;
-#endif
+	if(current_depth == 0) 
+	{
+		if(thread_rank==0)
+		{	
+			Move *moves=NULL;
+			int *eval_results;
+			moves=(Move*)malloc((num_threads -1)*sizeof(Move));
+			eval_results=(int*)malloc((num_threads - 1)*sizeof(int));
 
+			//all threads send value to thread 0
+			for(int i=1;i<num_threads;i++)
+			{
+				MPI_Status status;
+				MPI_Recv((void*)&moves[i-1], sizeof(Move), MPI_BYTE, i, 10,
+						MPI_COMM_WORLD, &status);
+				MPI_Recv(&eval_results[i-1], 1, MPI_INT, i, 10, 
+						MPI_COMM_WORLD, &status);
+			}
+
+			bestestMove=_bestMove;
+			for(int i=0;i<num_threads-1;i++)
+			{
+				if(sign*eval_results[i] > sign*bestEval)
+				{
+					bestEval = eval_results[i];
+					bestestMove=moves[i];
+				}
+			}
+
+			for(int i=1;i<num_threads;i++) 
+			{
+				MPI_Send (&bestestMove, sizeof(Move), MPI_BYTE, i, 10,
+						MPI_COMM_WORLD);
+				MPI_Send (&bestEval, 1, MPI_INT, i, 10,
+						MPI_COMM_WORLD);
+			}
+
+		}	
+		else 
+		{
+			MPI_Send (&_bestMove, sizeof(Move), MPI_BYTE, 0, 10,
+					MPI_COMM_WORLD);
+			MPI_Send (&bestEval, 1, MPI_INT, 0, 10,
+					MPI_COMM_WORLD);
+
+			MPI_Status status;
+			MPI_Recv(&bestestMove, sizeof(Move), MPI_BYTE, 0, 10,
+					MPI_COMM_WORLD, &status);
+			MPI_Recv(&bestEval, 1, MPI_INT, 0, 10,
+					MPI_COMM_WORLD, &status);
+		}
+		foundBestMove(0, bestestMove, bestEval);
+		finishedNode(0,0);
+	}
 	return bestEval;
 }
 
 void MinimaxStrategy::searchBestMove()
 {
 
-// KUKU : Here we have to implement the minimax strategy
-// Minimax strategy tries to minimize the maximum possible outcome of opponent.
-// At each turn, we check for each move the max positive outcome for opponent.
-// We choose the move for which the max is least.
-// To check this, we look at more than one levels in the Game Tree.
+	// KUKU : Here we have to implement the minimax strategy
+	// Minimax strategy tries to minimize the maximum possible outcome of opponent.
+	// At each turn, we check for each move the max positive outcome for opponent.
+	// We choose the move for which the max is least.
+	// To check this, we look at more than one levels in the Game Tree.
 	// we try to maximize bestEvaluation
-/*	int bestEval = minEvaluation();
-	int eval;
+	/*	int bestEval = minEvaluation();
+		int eval;
 
-	Move m;
-	MoveList list;
+		Move m;
+		MoveList list;
 
 	// generate list of allowed moves, put them into <list>
 	generateMoves(list);
@@ -165,19 +199,19 @@ void MinimaxStrategy::searchBestMove()
 	// loop over all moves
 	while(list.getNext(m)) {
 
-		// draw move, evalute, and restore position
-		playMove(m);
-		eval = evaluate();
-		takeBack();
+	// draw move, evalute, and restore position
+	playMove(m);
+	eval = evaluate();
+	takeBack();
 
-		if (eval > bestEval) {
-			bestEval = eval;
-			foundBestMove(0, m, eval);
-		}
+	if (eval > bestEval) {
+	bestEval = eval;
+	foundBestMove(0, m, eval);
+	}
 	}
 
 	finishedNode(0,0);
-*/
+	 */
 	minimax();
 }
 

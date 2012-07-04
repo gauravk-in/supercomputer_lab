@@ -15,8 +15,6 @@
 #define likely(x)       __builtin_expect((x),1)
 #define unlikely(x)     __builtin_expect((x),0)
 
-extern int maxDepth;
-
 /**
  * To create your own search strategy:
  * - copy this file into another one,
@@ -51,7 +49,7 @@ class MinimaxStrategy: public SearchStrategy
 };
 
 int current_depth=0;
-#define MAX_DEPTH maxDepth
+#define MAX_DEPTH 3
 
 int MinimaxStrategy::minimax()
 {
