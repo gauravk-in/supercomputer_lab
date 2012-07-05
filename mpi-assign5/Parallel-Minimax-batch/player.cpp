@@ -293,7 +293,10 @@ void parseArgs(int argc, char* argv[])
 }
 
 extern int avg_kleavesPerSec;
+extern int _msecs;
 
+
+Move m;
 int main(int argc, char* argv[])
 {
 
@@ -351,8 +354,8 @@ int main(int argc, char* argv[])
 	else
 	{
 		bool exit_loop = false;
-		while(!exit_loop) 
-		{
+	//	while(!exit_loop) 
+	//	{
 
 			char state_str[1024];
 			MPI_Status mpi_st;
@@ -378,7 +381,7 @@ int main(int argc, char* argv[])
 
 			int state = b.validState();
 			if ((state == Board::empty))
-				continue;
+//				continue;
 			if ((state != Board::valid1) &&
 					(state != Board::valid2)) {
 				printf("%s\n", Board::stateDescription(state));
@@ -400,7 +403,7 @@ int main(int argc, char* argv[])
 				struct timeval t1, t2;
 
 				gettimeofday(&t1,0);
-				Move m = b.bestMove();
+				m = b.bestMove();
 				gettimeofday(&t2,0);
 
 				int msecsPassed =
@@ -450,7 +453,7 @@ int main(int argc, char* argv[])
 
 			//	pretty_print("*********** Exit_loop", exit_loop);
 
-		}
+//		}
 		//		printf("thread rank = %d Average leaves visited per sec  = %d k/s\n", thread_rank, avg_kleavesPerSec);
 
 	}
@@ -468,9 +471,10 @@ int main(int argc, char* argv[])
 		for(int i=0;i<num_threads;i++) {
 			average += avg_list[i];
 		}
-		average=average/num_threads;
 
-		printf("Average evals per second for all threads %d k/s. \ni.e. total evals per second should be %d k/s\n", average, average*num_threads);
+	//	printf("Average evals per second for all threads %d k/s. \ni.e. total evals per second should be %d k/s\n", average, average*num_threads);
+		printf("\n\n\n%d, %d, %d, %f, %s\n", num_threads, maxDepth, average, _msecs/1000.0,  ss->_bestMove.name());
+
 	}
 	MPI_Finalize();
 

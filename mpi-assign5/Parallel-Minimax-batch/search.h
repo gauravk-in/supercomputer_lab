@@ -49,7 +49,6 @@ class SearchCallbacks
     int _msecsPassed, _msecsForSearch;
 };
 
-
 /*
  * Base class for search strategies
  *
@@ -82,8 +81,8 @@ class SearchStrategy
     virtual SearchStrategy* clone() = 0;
 
     void stopSearch() { _stopSearch = true; }
-
- protected:
+	
+// protected:
     /**
      * Overwrite this to implement your search strategy
      * and set _bestMove

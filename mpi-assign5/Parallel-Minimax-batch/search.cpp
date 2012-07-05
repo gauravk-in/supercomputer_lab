@@ -49,6 +49,8 @@ void SearchCallbacks::substart(char* s)
 
 int i=0;
 unsigned int avg_kleavesPerSec = 0;
+int _msecs;
+
 
 void SearchCallbacks::finished(Move& m)
 {
@@ -56,6 +58,8 @@ void SearchCallbacks::finished(Move& m)
     _msecsPassed =
 	(1000* t2.tv_sec + t2.tv_usec / 1000) -
 	(1000* t1.tv_sec + t1.tv_usec / 1000);
+	
+	_msecs = _msecsPassed;
 
     if (!_verbose) return;
 
