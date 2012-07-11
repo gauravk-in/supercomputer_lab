@@ -26,6 +26,7 @@
 
 int thread_rank;
 int num_threads;
+int *slaveleaves, *slavenodes;
 
 FILE *file;
 
@@ -308,10 +309,6 @@ int main(int argc, char* argv[])
 		while( len<499 && (c=fgetc(file)) != EOF)
 			global_tmp[len++] = (char) c;
 		global_tmp[len++]=0;
-
-		//printf("Gaurav\n");
-		//printf("%s",global_tmp);
-		//printf("Gaurav\n");
 	}
 
 	SearchStrategy* ss = SearchStrategy::create(strategyNo);
@@ -325,6 +322,12 @@ int main(int argc, char* argv[])
 
 	if(thread_rank == 0) {
 
+		slaveleaves = (int*) malloc((num_threads-1)*sizeof(int));
+		slavenodes = (int*) malloc((num_threads-1)*sizeof(int));
+		int i;
+		for ( i = 0; i < num_threads-1; i++)
+			slaveleaves[i] = slavenodes[i] = 0;
+
 		MyDomain d(lport);
 		d.received(global_tmp);
 
@@ -335,7 +338,10 @@ int main(int argc, char* argv[])
 		for (slave_id = 0; slave_id < num_threads-1; slave_id++)
 			MPI_Send(&slave_input, sizeof(Slave_Input), MPI_BYTE, slave_id + 1, 10, MPI_COMM_WORLD);
 
-		//printf("Average leaves visited per sec  = %d k/s\n", avg_kleavesPerSec);
+		for (i = 0; i < num_threads-1; i++)
+			printf("Thread %d calculated %d leaves and %d nodes\n", i+1, slaveleaves[i], slavenodes[i]);
+		free(slaveleaves);
+		free(slavenodes);
 	}
 	else
 	{
@@ -375,25 +381,6 @@ int main(int argc, char* argv[])
 			MPI_Send(&slave_output, sizeof(Slave_Output), MPI_BYTE, 0, 10, MPI_COMM_WORLD);
 		}
 	}
-	/*
-	int *avg_list;
-
-
-	avg_list = (int*)malloc(sizeof(int)*num_threads);
-
-	MPI_Gather (&avg_kleavesPerSec, 1, MPI_INT,
-			avg_list, 1, MPI_INT, 0, MPI_COMM_WORLD);
-
-	if(thread_rank == 0)
-	{
-		int average;
-		for(int i=0;i<num_threads;i++) {
-			average += avg_list[i];
-		}
-	
-		printf("\n\n\n%d, %d, %d, %f, %s\n", num_threads, maxDepth, average, _msecs/1000.0,  ss->_bestMove.name());
-
-	}*/
 	MPI_Finalize();
 
 }

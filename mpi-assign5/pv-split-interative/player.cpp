@@ -89,10 +89,6 @@ void MyDomain::sendBoard()
 
 void MyDomain::received(char* str)
 {
-	for(int i=1;i<num_threads;i++)
-		MPI_Send (str, 1024, MPI_CHAR, i, 10,
-				MPI_COMM_WORLD);
-
 
     if (strncmp(str, "quit", 4)==0) {
 	l.exit();

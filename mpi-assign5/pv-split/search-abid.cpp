@@ -15,7 +15,8 @@
 
 extern int thread_rank;
 extern int num_threads;
-
+extern int *slaveleaves;
+extern int *slavenodes;
 
 /**
  * Entry point for search
@@ -184,6 +185,10 @@ int ABIDStrategy::pv_split(int alpha0, int beta0)
 				MPI_Waitany(num_slaves, rcv_rq, &slave_id, MPI_STATUS_IGNORE);
 				_sc->_leavesVisited += slave_output[slave_id].num_leaves;
 				_sc->_nodesVisited += slave_output[slave_id].num_nodes;
+
+				slaveleaves[slave_id] += slave_output[slave_id].num_leaves;
+				slavenodes[slave_id] += slave_output[slave_id].num_nodes;
+
 				value = slave_output[slave_id].eval;
 				if (value > currentValue)
 				{
