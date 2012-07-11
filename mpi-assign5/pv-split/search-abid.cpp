@@ -17,7 +17,6 @@ extern int thread_rank;
 extern int num_threads;
 
 
-
 /**
  * Entry point for search
  *
@@ -92,7 +91,7 @@ void ABIDStrategy::searchBestMove()
 
 int ABIDStrategy::pv_split(int alpha0, int beta0)
 {   
-
+	bool cutoff;
 	int depth;
 	int value;
     	int currentValue = -15000;
@@ -178,6 +177,7 @@ int ABIDStrategy::pv_split(int alpha0, int beta0)
 
 		num_slaves = slave_id;
 		pending_jobs = num_slaves;
+		cutoff = false;
 
 		while (pending_jobs > 0)
 		{
@@ -197,9 +197,12 @@ int ABIDStrategy::pv_split(int alpha0, int beta0)
 						alpha[depth] = currentValue;	
 						slave_input.beta = -alpha[depth];
 					}
+					 /* alpha/beta cut off or win position ... */
+	    				if (currentValue>14900 || currentValue >= beta[depth])
+						cutoff = true;
 				}
 
-				if (list.getNext(m, Move::none))
+				if ((list.getNext(m, Move::none)) && (cutoff == false))
 				{
 					slave_input.move = m;	
 
