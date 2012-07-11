@@ -27,17 +27,16 @@ SEARCH_OBJS = $(LIB_OBJS) search-abid-pvsplit.o
 #SEARCH_OBJS = $(LIB_OBJS) search-abid.o search-onelevel.o search-minimax.o
 #SEARCH_OBJS = $(LIB_OBJS) search-parallel-minimax.o search-parallel-abid.cpp
 
-all: player 
-#start referee
+all: player start referee
 
 player: player.o $(SEARCH_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $< $(SEARCH_OBJS)
 
-#start: start.o $(LIB_OBJS)
-#	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $< $(LIB_OBJS)
+start: start.o $(LIB_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $< $(LIB_OBJS)
 
-#referee: referee.o $(LIB_OBJS)
-#	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $< $(LIB_OBJS)
+referee: referee.o $(LIB_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $< $(LIB_OBJS)
 
 clean:
 	rm -rf *.o *~ player start referee networktest
