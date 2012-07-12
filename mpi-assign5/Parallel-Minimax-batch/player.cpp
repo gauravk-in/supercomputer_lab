@@ -467,7 +467,7 @@ int main(int argc, char* argv[])
 
 	if(thread_rank == 0)
 	{
-		int average;
+		int average=0;
 		for(int i=0;i<num_threads;i++) {
 			average += avg_list[i];
 		}
